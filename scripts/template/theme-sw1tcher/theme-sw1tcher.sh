@@ -24,6 +24,9 @@ if command -v wpg &>/dev/null; then
     wpg -s "$wallpaper"
 fi
 
+# Current wallpaper
+cp -f "$(cat ~/.cache/wal/wal)" ~/.cache/wal/wal_wallpaper.jpg
+
 # Wlogout replaces SVG fill colors with dynamic wal colors
 if [ -f "$HOME/.cache/wal/colors.json" ]; then
     COLOR_WAL=$(grep -oP '"color15": "\K[^"]+' "$HOME/.cache/wal/colors.json")
