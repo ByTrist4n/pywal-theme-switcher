@@ -45,7 +45,7 @@ yay -S --needed --noconfirm \
 # Template Kvantum SVG for pywal
 # -------------------------------------------------------------
 log_step "Installing Templates for QT, GTK, Pywal, and Hyprland"
-cp -r ./scripts/template/wal $dir_wal
+cp -rT ./scripts/template/wal $dir_wal
 
 # -------------------------------------------------------------
 # Symlink qt6ct/Kvantum colors → cache wal
