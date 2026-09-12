@@ -11,7 +11,6 @@ dir_hypr_conf="$dir_hypr/hyprland.lua"
 dir_hypr_colors="$dir_hypr/config/"
 dir_user_wallpaper="$HOME/Pictures/Wallpapers"
 dir_wal="$dir_dot_conf/wal"
-dir_wal_templates="$dir_dot_conf/wal/templates"
 dir_kvantum_pywal="$dir_dot_conf/Kvantum/pywal"
 dir_qt="$dir_dot_conf/qt6ct"
 dir_qt6ct_colors="$dir_qt/colors"
@@ -46,7 +45,7 @@ yay -S --needed --noconfirm \
 # Template Kvantum SVG for pywal
 # -------------------------------------------------------------
 log_step "Installing Templates for QT, GTK, Pywal, and Hyprland"
-cp -r ./scripts/template/wal $dir_wal_templates
+cp -r ./scripts/template/wal $dir_wal
 
 # -------------------------------------------------------------
 # Symlink qt6ct/Kvantum colors → cache wal
