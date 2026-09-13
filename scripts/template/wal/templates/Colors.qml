@@ -5,26 +5,26 @@ import QtQuick 2.15
  */
 QtObject {
     // Primary background and foreground
-    property color background: "#11111b"
-    property color foreground: "#cdd6f4"
+    property color background: "{background}"
+    property color foreground: "{foreground}"
     // Pywal color palette mapping
-    property color color0: "#181825"
-    property color color1: "#f38ba8"
-    property color color2: "#a6e3a1"
-    property color color3: "#f9e2af"
-    property color color4: "#89b4fa"
-    property color color5: "#cba6f7"
-    property color color6: "#7dcfff"
-    property color color7: "#a6adc8"
+    property color color0: "{color0}"
+    property color color1: "{color1}"
+    property color color2: "{color2}"
+    property color color3: "{color3}"
+    property color color4: "{color4}"
+    property color color5: "{color5}"
+    property color color6: "{color6}"
+    property color color7: "{color7}"
     // Bright variants
-    property color color8: "#313244"
-    property color color9: "#313244"
-    property color color10: "#11111b"
-    property color color11: "#f9e2af"
-    property color color12: "#89b4fa"
-    property color color13: "#cba6f7"
-    property color color14: "#7dcfff"
-    property color color15: "#cdd6f4"
+    property color color8: "{color8}"
+    property color color9: "{color9}"
+    property color color10: "{color10}"
+    property color color11: "{color11}"
+    property color color12: "{color12}"
+    property color color13: "{color13}"
+    property color color14: "{color14}"
+    property color color15: "{color15}"
     // UI functional aliases
     property color accent: color4
     property color active: color2
