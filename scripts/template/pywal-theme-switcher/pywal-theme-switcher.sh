@@ -1,4 +1,9 @@
 #!/bin/bash
+# ==============================================================================
+# Dynamic Pywal Theme Switcher for Hyprland, GTK, Qt & Quickshell
+# Repository: https://github.com/ByTrist4n/pywal-theme-switcher
+# Author: ByTrist4n
+# ==============================================================================
 
 # Configuration paths
 dir_wallpaper="$HOME/Pictures/Wallpapers"

@@ -1,35 +1,45 @@
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Sixtyfour&size=24&pause=1000&color=18F71D&width=435&lines=Theme+Swi1tcher;By+Trist4n)](https://git.io/typing-svg)
+<div align="center">
 
-[![](https://img.shields.io/github/last-commit/TristanDefachel/theme-sw1tcher?&style=for-the-badge&labelColor=252733)](https://github.com/TristanDefachel/theme-sw1tcher)
-[![](https://img.shields.io/github/repo-size/TristanDefachel/theme-sw1tcher?color=%23DDB&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=252733)](https://github.com/TristanDefachel/theme-sw1tcher)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Sixtyfour&size=24&pause=1000&color=1793d1&width=480&lines=Pywal+Theme+Switcher;ByTrist4n)](https://git.io/typing-svg)
+
+[![GitHub stars](https://img.shields.io/github/stars/ByTrist4n/pywal-theme-switcher?style=for-the-badge&logo=github&color=daaa3f&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
+[![Last Commit](https://img.shields.io/github/last-commit/ByTrist4n/pywal-theme-switcher?style=for-the-badge&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
+[![Repo Size](https://img.shields.io/github/repo-size/ByTrist4n/pywal-theme-switcher?style=for-the-badge&logo=codesandbox&color=DDB&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
+[![Hyprland](https://img.shields.io/badge/Hyprland-v0.55%2B-1793d1?logo=hyprland&style=for-the-badge&logoColor=1793d1&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
+
+</div>
 
 # About
-**Theme Sw1tcher** is a small script that extracts the colors from the current wallpaper and applies them to all applications in the environment.
 
-If you like it, star the repo ⭐
+**Pywal Theme Switcher** is a small script that extracts the colors from the current wallpaper and applies them to all applications in the environment (Qt, GTK, Quickshell, Hyprland).
+
+> If you like this setup, please consider leaving **a star ⭐ on GitHub**! It helps a lot! 🫰💖
+
+> 🚀 Need Automated Installation? To install and orchestrate this environment automatically on CachyOS / Arch Linux, check out my installer repository: [ByTrist4n / hyprland-setup](https://github.com/ByTrist4n/hyprland-setup)
 
 # Preview
+
 ![Screenshot Switch theme](screenshots/screenshot_theme_switch.jpg)
 
 # 🛠️ Tech Stack
-[![Arch Linux](https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge)](https://archlinux.org)
-![Hyprland](https://img.shields.io/badge/Hyprland-blue?style=for-the-badge&logo=hyprland)
 
+[![Arch Linux](https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge)](https://archlinux.org)
+[![Hyprland](https://img.shields.io/badge/Hyprland-1793D1?logo=hyprland&logoColor=fff&style=for-the-badge)](https://hyprland.org)
 
 ### 📦 Core Dependencies (Pacman)
 
-| Package                                                                                               | Description                                        |
-| :---------------------------------------------------------------------------------------------------- | :------------------------------------------------- |
-| 🚀 [yay](https://github.com/Jguer/yay)                                                                 | AUR helper and pacman wrapper                      |
-| 🔤 [ttf-jetbrains-mono-nerd](https://github.com/ryanoasis/nerd-fonts)                                  | Developer font with specialized glyphs and icons   |
-| 🎨 [qt5ct](https://sourceforge.net/projects/qt5ct/) / [qt6ct](https://sourceforge.net/projects/qt5ct/) | Qt5 and Qt6 configuration utilities                |
-| 🔍 [rofi](https://github.com/davatorium/rofi)                                                          | Window switcher and application launcher           |
+| Package                                                                                                | Description                                      |
+| :----------------------------------------------------------------------------------------------------- | :----------------------------------------------- |
+| 🚀 [yay](https://github.com/Jguer/yay)                                                                 | AUR helper and pacman wrapper                    |
+| 🔤 [ttf-jetbrains-mono-nerd](https://github.com/ryanoasis/nerd-fonts)                                  | Developer font with specialized glyphs and icons |
+| 🎨 [qt5ct](https://sourceforge.net/projects/qt5ct/) / [qt6ct](https://sourceforge.net/projects/qt5ct/) | Qt5 and Qt6 configuration utilities              |
+| 🔍 [rofi](https://github.com/davatorium/rofi)                                                          | Window switcher and application launcher         |
 
 ### 🛸 AUR Dependencies (Yay)
 
-| Package                                                                              | Description                                         |
-| :----------------------------------------------------------------------------------- | :-------------------------------------------------- |
-| 🖼️ [awww](https://codeberg.org/LGFae/awww)                                        | Dynamic wallpaper generator and wrapper             |
+| Package                                                                               | Description                                         |
+| :------------------------------------------------------------------------------------ | :-------------------------------------------------- |
+| 🖼️ [awww](https://codeberg.org/LGFae/awww)                                            | Dynamic wallpaper generator and wrapper             |
 | 🌈 [python-pywal16](https://github.com/eylles/pywal16)                                | Color palette generation from images (Pywal fork)   |
 | 🛠️ [wpgtk](https://github.com/deviantfero/wpgtk)                                      | Universal theme template manager using Pywal        |
 | 🕶️ [nwg-look](https://github.com/nwg-piotr/nwg-look)                                  | GTK3/4 configuration customization tool for Wayland |

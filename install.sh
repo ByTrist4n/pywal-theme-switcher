@@ -1,7 +1,10 @@
 #!/bin/bash
-# =============================================================
-#  Setup "Theme Sw1tcher"
-# =============================================================
+# ==============================================================================
+# Dynamic Pywal Theme Switcher for Hyprland, GTK, Qt & Quickshell
+# Repository: https://github.com/ByTrist4n/pywal-theme-switcher
+# Author: ByTrist4n
+# ==============================================================================
+
 set -e
 source "./utils.sh"
 
@@ -87,10 +90,10 @@ else
 fi
 
 # -------------------------------------------------------------
-# Install "theme-sw1tcher.sh"
+# Install "pywal-theme-switcher.sh"
 # -------------------------------------------------------------
 log_step "Install theme-sw1tch.sh script..."
-cp -r "./scripts/template/theme-sw1tcher" $dir_dot_conf
+cp -r "./scripts/template/pywal-theme-switcher" $dir_dot_conf
 
 # -------------------------------------------------------------
 # Kitty Theme
@@ -126,28 +129,28 @@ if ask_yes_no "Do you want to configure a shortcut to change the theme?"; then
 
   if [ -n "$TARGET_FILE" ]; then
     # Check if the keybind combination (SHIFT + T) or the theme folder already exists
-    if ! grep -q -E "SHIFT \+ T|theme-sw1tcher" "$TARGET_FILE"; then
+    if ! grep -q -E "SHIFT \+ T|pywal-theme-switcher" "$TARGET_FILE"; then
       # Insert the new bind exactly above the first occurrence of "hl.bind"
-      sed -i '0,/hl.bind/{s/hl.bind/hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("sh ~\/.config\/theme-sw1tcher\/theme-sw1tcher.sh"))\nhl.bind/}' "$TARGET_FILE"
+      sed -i '0,/hl.bind/{s/hl.bind/hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("sh ~\/.config\/pywal-theme-switcher\/pywal-theme-switcher.sh"))\nhl.bind/}' "$TARGET_FILE"
 
       log_success "Successfully added theme shortcut to: ${BLUE}${TARGET_FILE}${NC}"
       log_success "--> ${BLUE}${BOLD}\"hl.bind(mainMod .. \" + SHIFT + T\", ...)\"${NC}"
     else
       log_info "Theme switcher shortcut or SHIFT+T bind already exists in ${BLUE}${TARGET_FILE}${NC}, skipping."
-      log_info "Add manually a keyboard shortcut to your Hyprland configuration --> ${BLUE}${BOLD}\"hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"sh ~/.config/theme-sw1tcher/theme-sw1tcher.sh\"))\"${NC}"
+      log_info "Add manually a keyboard shortcut to your Hyprland configuration --> ${BLUE}${BOLD}\"hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"sh ~/.config/pywal-theme-switcher/pywal-theme-switcher.sh\"))\"${NC}"
     fi
   else
-    log_warn "No active configuration file with 'hl.bind' was found in $dir_hypr\nAdd manually a keyboard shortcut to your Hyprland configuration --> ${BLUE}${BOLD}\"hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"sh ~/.config/theme-sw1tcher/theme-sw1tcher.sh\"))\"${NC}"
+    log_warn "No active configuration file with 'hl.bind' was found in $dir_hypr\nAdd manually a keyboard shortcut to your Hyprland configuration --> ${BLUE}${BOLD}\"hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"sh ~/.config/pywal-theme-switcher/pywal-theme-switcher.sh\"))\"${NC}"
   fi
 else
   log_info "Skipping colors in Hyprland configuration."
 fi
 
 echo ""
-echo "🎉 Theme Sw1tcher Setup complete!"
+echo "🎉 Pywal Theme Switcher Setup complete!"
 echo ""
 echo "Remaining manual checklist:"
 echo " 1. Copy your wallpapers to $dir_user_wallpaper"
-echo " 2. Run "$dir_dot_conf/theme-sw1tcher/theme-sw1tcher.sh" to test"
+echo " 2. Run "$dir_dot_conf/pywal-theme-switcher/pywal-theme-switcher.sh" to test"
 echo "Enjoy"
 echo ""
