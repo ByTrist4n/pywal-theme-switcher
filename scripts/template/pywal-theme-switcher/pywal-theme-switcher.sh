@@ -2,13 +2,14 @@
 # ==============================================================================
 # Dynamic Pywal Theme Switcher for Hyprland, GTK, Qt & Quickshell
 # Repository: https://github.com/ByTrist4n/pywal-theme-switcher
-# Author: ByTrist4n
+# Author: ByTrist4n (https://github.com/ByTrist4n)
 # ==============================================================================
 
 # Configuration paths
 dir_wallpaper="$HOME/Pictures/Wallpapers"
 hypr_colors="$HOME/.config/hypr/config/colors.lua"
 wal_colors="$HOME/.cache/wal/colors.lua"
+hooks_dir="$HOME/.config/pywal-theme-switcher/post-hooks.d"
 
 # Select wallpaper with rofi
 selected=$(find "$dir_wallpaper" -type f | while read -r line; do
@@ -31,6 +32,13 @@ fi
 
 # Current wallpaper
 cp -f "$(cat ~/.cache/wal/wal)" ~/.cache/wal/wal_wallpaper.jpg
+
+# Execute post-theme hooks if available
+if [ -d "$hooks_dir" ]; then
+  for hook in "$hooks_dir"/*; do
+    [ -x "$hook" ] && "$hook"
+  done
+fi
 
 # Wlogout replaces SVG fill colors with dynamic wal colors
 if [ -f "$HOME/.cache/wal/colors.json" ]; then
