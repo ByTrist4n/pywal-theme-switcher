@@ -56,7 +56,7 @@
 
 # 🪝 Post-Hooks System (`post-hooks.d`)
 
-`pywal-theme-switcher` supports custom executable scripts triggered automatically after every theme change. This allows you to sync external services (SDDM, Spotify, Discord, terminal emulators, etc.) with your new Pywal color palette.
+`pywal-theme-switcher` supports custom executable scripts triggered automatically after every theme change. This allows you to sync external services (SDDM, Discord, terminal emulators, etc.) with your new Pywal color palette.
 
 ### Directory Location
 
