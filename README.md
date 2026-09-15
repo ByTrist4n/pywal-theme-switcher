@@ -9,7 +9,9 @@
 
 </div>
 
-# About
+<br>
+
+# What is it?
 
 **Pywal Theme Switcher** is a small script that extracts the colors from the current wallpaper and applies them to all applications in the environment (Qt, GTK, Quickshell, Hyprland).
 
@@ -17,9 +19,13 @@
 
 > 🚀 Need Automated Installation? To install and orchestrate this environment automatically on CachyOS / Arch Linux, check out my installer repository: [ByTrist4n / hyprland-setup](https://github.com/ByTrist4n/hyprland-setup)
 
+<br>
+
 # Preview
 
 ![Screenshot Switch theme](screenshots/screenshot_theme_switch.jpg)
+
+<br>
 
 # 🛠️ Tech Stack
 
@@ -45,3 +51,32 @@
 | 🕶️ [nwg-look](https://github.com/nwg-piotr/nwg-look)                                  | GTK3/4 configuration customization tool for Wayland |
 | 🎨 [papirus-icon-theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) | Material design icon theme for Linux                |
 | 🌌 [kvantum](https://github.com/tsujan/Kvantum)                                       | SVG-based theme engine for Qt5/Qt6                  |
+
+<br>
+
+# 🪝 Post-Hooks System (`post-hooks.d`)
+
+`pywal-theme-switcher` supports custom executable scripts triggered automatically after every theme change. This allows you to sync external services (SDDM, Spotify, Discord, terminal emulators, etc.) with your new Pywal color palette.
+
+### Directory Location
+
+Create the hooks directory if it doesn't exist yet:
+
+```bash
+mkdir -p ~/.config/pywal-theme-switcher/post-hooks.d
+```
+
+### Creating & Activating a New Hook
+
+- Create a script inside `~/.config/pywal-theme-switcher/post-hooks.d/`
+
+  ```bash
+  touch ~/.config/pywal-theme-switcher/post-hooks.d/01-sddm.sh
+  ```
+
+- Add your shell commands with a proper shebang (`#!/bin/bash`).
+
+- Grant execution permissions:
+  ```bash
+  chmod +x ~/.config/pywal-theme-switcher/post-hooks.d/01-sddm.sh
+  ```
