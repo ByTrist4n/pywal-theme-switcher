@@ -27,6 +27,29 @@
 
 <br>
 
+# Getting Started
+
+### Prerequisites
+
+Hyprland v0.55 minimum with lua, run :
+
+```bash
+hyprland --version
+```
+
+### Installation
+
+To install, clone the repository and execute the installation script from the root directory:
+Bash
+
+```bash
+git clone https://github.com/ByTrist4n/pywal-theme-switcher
+cd pywal-theme-switcher
+sh install.sh
+```
+
+<br>
+
 # 🛠️ Tech Stack
 
 [![Arch Linux](https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge)](https://archlinux.org)
