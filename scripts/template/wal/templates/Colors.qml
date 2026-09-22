@@ -25,9 +25,4 @@ QtObject {
     property color color13: "{color13}"
     property color color14: "{color14}"
     property color color15: "{color15}"
-    // UI functional aliases
-    property color accent: color4
-    property color active: color2
-    property color warning: color3
-    property color danger: color1
 }
