@@ -10,6 +10,8 @@ source "./utils.sh"
 
 dir_dot_conf="$HOME/.config"
 dir_local_bin="$HOME/.local/bin"
+dir_local_apps="$HOME/.local/share/applications"
+dir_local_icons="$HOME/.local/share/icons"
 dir_hypr="$dir_dot_conf/hypr"
 dir_hypr_conf="$dir_hypr/hyprland.lua"
 dir_hypr_colors="$dir_hypr/config"
@@ -23,6 +25,8 @@ kitty_conf="$dir_dot_conf/kitty/kitty.conf"
 
 log_step "Creating directory structure..."
 mkdir -p "$dir_local_bin"
+mkdir -p "$dir_local_apps"
+mkdir -p "$dir_local_icons"
 mkdir -p "$dir_user_wallpaper"
 mkdir -p "$dir_wal"
 mkdir -p "$dir_kvantum_pywal"
@@ -106,6 +110,25 @@ cp "./scripts/template/pywal-theme-switcher/pywal-theme-switcher.sh" "$dir_local
 chmod +x "$dir_local_bin/pywal-theme-switcher"
 
 # -------------------------------------------------------------
+# Install "pywal-theme-switcher.desktop"
+# -------------------------------------------------------------
+log_step "Installing icon and .desktop entry..."
+cp "./assets/pywal-theme-switcher.svg" "$dir_local_icons/pywal-theme-switcher.svg"
+log_info "Copied custom SVG icon to $dir_local_icons/pywal-theme-switcher.svg"
+
+cat <<EOF >"$dir_local_apps/pywal-theme-switcher.desktop"
+[Desktop Entry]
+Name=Pywal Theme Switcher
+Comment=Dynamic Pywal Theme Switcher for Hyprland, GTK, Qt & Quickshell
+Exec=$dir_local_bin/pywal-theme-switcher
+Icon=pywal-theme-switcher
+Terminal=false
+Type=Application
+Categories=Settings;DesktopSettings;
+EOF
+log_success "Created $dir_local_apps/pywal-theme-switcher.desktop"
+
+# -------------------------------------------------------------
 # Kitty Theme
 # -------------------------------------------------------------
 log_step "Configuring Kitty terminal colors..."
@@ -161,15 +184,15 @@ if command -v hyprctl >/dev/null 2>&1 || [ -d "$dir_hypr" ]; then
 
     if [ -n "$TARGET_FILE" ]; then
       if ! grep -q "~/.local/bin/pywal-theme-switcher" "$TARGET_FILE"; then
-        # Inject binding using explicit 'sh ~/.local/bin/pywal-theme-switcher' call
-        sed -i '0,/hl.bind/{s|hl.bind|hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("sh ~/.local/bin/pywal-theme-switcher"))\nhl.bind|}' "$TARGET_FILE"
+        # Inject binding using executable path
+        sed -i '0,/hl.bind/{s|hl.bind|hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/.local/bin/pywal-theme-switcher"))\nhl.bind|}' "$TARGET_FILE"
         log_success "Added keybind to: ${BLUE}${TARGET_FILE}${NC}"
       else
         log_info "Keybind already present in ${BLUE}${TARGET_FILE}${NC}, skipping."
       fi
     else
       log_warn "No active file with 'hl.bind' found in $dir_hypr."
-      log_warn "Manually add: hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"sh ~/.local/bin/pywal-theme-switcher\"))"
+      log_warn "Manually add: hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"~/.local/bin/pywal-theme-switcher\"))"
     fi
   else
     log_info "Skipping Hyprland keybind configuration."
@@ -184,5 +207,5 @@ echo "https://github.com/ByTrist4n/pywal-theme-switcher"
 echo ""
 echo "Next steps:"
 echo " 1. Copy your wallpapers to $dir_user_wallpaper"
-echo " 2. Run \"pywal-theme-switcher\" from your terminal to test"
+echo " 2. Reload and Run \"pywal-theme-switcher\" from your terminal to test"
 echo ""

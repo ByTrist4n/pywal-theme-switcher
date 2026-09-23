@@ -23,7 +23,7 @@
 
 # Preview
 
-![Screenshot Switch theme](screenshots/screenshot_theme_switch.jpg)
+![Screenshot Switch theme](assets/screenshots/screenshot_theme_switch.jpg)
 
 <br>
 
