@@ -17,7 +17,9 @@
 
 # What is it?
 
-**Pywal Theme Switcher** is a small script that extracts the colors from the current wallpaper and applies them to all applications in the environment (Qt, GTK, Quickshell, Hyprland).
+**Pywal Theme Switcher** is a small script that extracts the colors from the current wallpaper and applies them to applications in the environment, such as Qt, GTK, Quickshell and Hyprland.
+
+Hyprland and Quickshell are optional, so Pywal Theme Switcher can also be used in other desktop environments or window managers.
 
 > If you like this setup, please consider leaving **a star ⭐ on GitHub**! It helps a lot! 🫰💖
 
@@ -35,7 +37,11 @@
 
 ### Prerequisites
 
-Hyprland v0.55 minimum with lua, run :
+**Hyprland is optional.** Pywal Theme Switcher can be used without Hyprland.
+
+If you are using Hyprland, **v0.55+ with Lua support** is required.
+
+You can check your version with:
 
 ```bash
 hyprland --version
@@ -44,13 +50,32 @@ hyprland --version
 ### Installation
 
 To install, clone the repository and execute the installation script from the root directory:
-Bash
 
 ```bash
-git clone https://github.com/ByTrist4n/pywal-theme-switcher
+git clone https://github.com/ByTrist4n/pywal-theme-switcher.git
+
 cd pywal-theme-switcher
-sh install.sh
+
+./install.sh
 ```
+
+During the installation, you can choose between **Rofi** and **Walker** as your wallpaper selector.
+
+You can also select the launcher directly from the command line:
+
+**Walker:**
+
+```bash
+./install.sh --walker
+```
+
+**Rofi:**
+
+```bash
+./install.sh --rofi
+```
+
+If no option is provided, the installer will ask you which launcher you want to use.
 
 <br>
 
@@ -68,6 +93,8 @@ sh install.sh
 | 🎨 [qt5ct](https://sourceforge.net/projects/qt5ct/) / [qt6ct](https://sourceforge.net/projects/qt5ct/) | Qt5 and Qt6 configuration utilities              |
 | 🔍 [rofi](https://github.com/davatorium/rofi)                                                          | Window switcher and application launcher         |
 
+> **Note:** `rofi` is only installed when Rofi is selected.
+
 ### 🛸 AUR Dependencies (Yay)
 
 | Package                                                                               | Description                                         |
@@ -78,6 +105,25 @@ sh install.sh
 | 🕶️ [nwg-look](https://github.com/nwg-piotr/nwg-look)                                  | GTK3/4 configuration customization tool for Wayland |
 | 🎨 [papirus-icon-theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) | Material design icon theme for Linux                |
 | 🌌 [kvantum](https://github.com/tsujan/Kvantum)                                       | SVG-based theme engine for Qt5/Qt6                  |
+| 🚶 [walker](https://github.com/abenz1267/walker)                                      | Application launcher and wallpaper selector         |
+
+> **Note:** `walker` is only installed when Walker is selected.
+
+<br>
+
+# 🎨 How It Works
+
+When you launch `pywal-theme-switcher`, the script:
+
+1. 🖼️ Lets you select a wallpaper using **Rofi or Walker**.
+2. 🌈 Generates a new color palette using **Pywal / WPGTK**.
+3. 🖥️ Applies the generated colors to the configured applications.
+4. 🪟 Updates **Hyprland** colors.
+5. 🎨 Updates **Qt / Kvantum** themes.
+6. 🐧 Updates **GTK** theming.
+7. 🛸 Refreshes **Quickshell**.
+8. 🪝 Executes all executable post-hooks.
+9. 🔄 Reloads the relevant desktop components.
 
 <br>
 
@@ -98,12 +144,71 @@ mkdir -p ~/.config/pywal-theme-switcher/post-hooks.d
 - Create a script inside `~/.config/pywal-theme-switcher/post-hooks.d/`
 
   ```bash
-  touch ~/.config/pywal-theme-switcher/post-hooks.d/01-sddm.sh
+  touch ~/.config/pywal-theme-switcher/post-hooks.d/01-custom.sh
   ```
 
 - Add your shell commands with a proper shebang (`#!/bin/bash`).
 
 - Grant execution permissions:
+
   ```bash
-  chmod +x ~/.config/pywal-theme-switcher/post-hooks.d/01-sddm.sh
+  chmod +x ~/.config/pywal-theme-switcher/post-hooks.d/01-custom.sh
   ```
+
+<br>
+
+# 🔔 Notifications
+
+Desktop notifications can be enabled or disabled through:
+
+```text
+~/.config/pywal-theme-switcher/config.toml
+```
+
+Enable notifications:
+
+```toml
+[notifications]
+enable = true
+```
+
+Disable notifications:
+
+```toml
+[notifications]
+enable = false
+```
+
+<br>
+
+# ⌨️ Hyprland Keybind
+
+If you are using Hyprland, the installer can automatically configure a Hyprland keybind to launch the theme switcher.
+
+Default binding:
+
+```text
+SUPER + SHIFT + T
+```
+
+You can also launch the switcher manually:
+
+```bash
+pywal-theme-switcher
+```
+
+or:
+
+```bash
+~/.local/bin/pywal-theme-switcher/pywal-theme-switcher.sh
+```
+
+<br>
+
+<div align="center">
+
+⭐ **If you like Pywal Theme Switcher, consider giving it a star!** ⭐
+
+🫰💖
+
+</div>
