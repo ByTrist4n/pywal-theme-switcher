@@ -138,8 +138,8 @@ fi
 # Install "pywal-theme-switcher" executable
 # -------------------------------------------------------------
 log_step "Installing pywal-theme-switcher script to ~/.local/bin..."
-cp "./scripts/template/pywal-theme-switcher/pywal-theme-switcher.sh" "$dir_local_bin/pywal-theme-switcher"
-chmod +x "$dir_local_bin/pywal-theme-switcher"
+cp -r "./scripts/template/pywal-theme-switcher" "$dir_local_bin/pywal-theme-switcher"
+chmod +x "$dir_local_bin/pywal-theme-switcher/pywal-theme-switcher.sh"
 
 # -------------------------------------------------------------
 # Install "pywal-theme-switcher.desktop"
