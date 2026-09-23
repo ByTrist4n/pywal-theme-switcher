@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ==============================================================================
 # Dynamic Pywal Theme Switcher for Hyprland, GTK, Qt & Quickshell
 # Repository: https://github.com/ByTrist4n/pywal-theme-switcher
@@ -9,9 +9,10 @@ set -e
 source "./utils.sh"
 
 dir_dot_conf="$HOME/.config"
-dir_hypr=$dir_dot_conf/hypr
+dir_local_bin="$HOME/.local/bin"
+dir_hypr="$dir_dot_conf/hypr"
 dir_hypr_conf="$dir_hypr/hyprland.lua"
-dir_hypr_colors="$dir_hypr/config/"
+dir_hypr_colors="$dir_hypr/config"
 dir_user_wallpaper="$HOME/Pictures/Wallpapers"
 dir_wal="$dir_dot_conf/wal"
 dir_kvantum_pywal="$dir_dot_conf/Kvantum/pywal"
@@ -20,137 +21,168 @@ dir_qt6ct_colors="$dir_qt/colors"
 qt6ct_conf="$dir_qt/qt6ct.conf"
 kitty_conf="$dir_dot_conf/kitty/kitty.conf"
 
-echo "$dir_dot_conf"
-
-log_step "Creation of folders..."
+log_step "Creating directory structure..."
+mkdir -p "$dir_local_bin"
 mkdir -p "$dir_user_wallpaper"
 mkdir -p "$dir_wal"
 mkdir -p "$dir_kvantum_pywal"
 mkdir -p "$dir_qt6ct_colors"
-mkdir -p "$dir_dot_conf"
 
 # -------------------------------------------------------------
 # Install Dependencies
 # -------------------------------------------------------------
-# Pacman packages
-log_step "Installing core and basic packages via Pacman..."
+log_step "Installing core packages via Pacman..."
 sudo pacman -S --needed --noconfirm \
   yay \
   ttf-jetbrains-mono-nerd \
   qt5ct qt6ct rofi
 
-# Yay packages
-log_step "Installing AUR packages..."
+log_step "Installing AUR packages via Yay..."
 yay -S --needed --noconfirm \
   awww pywal-16-git wpgtk nwg-look papirus-icon-theme kvantum
 
 # -------------------------------------------------------------
-# Template Kvantum SVG for pywal
+# Ensure ~/.local/bin is in PATH for shell configuration files
 # -------------------------------------------------------------
-log_step "Installing Templates for QT, GTK, Pywal, and Hyprland"
-cp -rT ./scripts/template/wal $dir_wal
+log_step "Checking PATH configuration for shells..."
+
+ensure_path_in_file() {
+  local target_file="$1"
+  local config_line="$2"
+
+  if [ -f "$target_file" ]; then
+    if ! grep -q "\.local/bin" "$target_file"; then
+      echo -e "\n# Add ~/.local/bin to PATH\n$config_line" >>"$target_file"
+      log_success "Added ~/.local/bin to PATH in $target_file"
+    else
+      log_info "~/.local/bin is already in PATH in $target_file"
+    fi
+  fi
+}
+
+# Bash & Zsh (POSIX)
+ensure_path_in_file "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
+ensure_path_in_file "$HOME/.bashrc" 'export PATH="$HOME/.local/bin:$PATH"'
+
+# Fish (Native command)
+ensure_path_in_file "$dir_dot_conf/fish/config.fish" 'fish_add_path $HOME/.local/bin'
+
+# Export for current session execution
+export PATH="$dir_local_bin:$PATH"
+
+# -------------------------------------------------------------
+# Template Kvantum SVG & Pywal templates
+# -------------------------------------------------------------
+log_step "Installing templates for Qt, GTK, Pywal, and Hyprland..."
+cp -rT ./scripts/template/wal "$dir_wal"
 
 # -------------------------------------------------------------
 # Symlink qt6ct/Kvantum colors → cache wal
 # -------------------------------------------------------------
-log_step "Symlink qt6ct colors..."
+log_step "Linking qt6ct and Kvantum color schemes..."
 ln -sf "$HOME/.cache/wal/colors-qt6ct.conf" "$dir_qt6ct_colors/pywal.conf"
-log_step "Symlink Kvantum colors..."
 ln -sf "$HOME/.cache/wal/pywal.svg" "$dir_kvantum_pywal/pywal.svg"
 ln -sf "$HOME/.cache/wal/pywal.kvconfig" "$dir_kvantum_pywal/pywal.kvconfig"
 
 # -------------------------------------------------------------
 # Config qt6ct
 # -------------------------------------------------------------
-log_step "Configuration qt6ct..."
+log_step "Configuring qt6ct..."
 if [ -f "$qt6ct_conf" ]; then
-  sed -i 's|color_scheme_path=.*|color_scheme_path=/home/'"$USER"'/.config/qt6ct/colors/pywal.conf|' "$qt6ct_conf"
+  sed -i 's|color_scheme_path=.*|color_scheme_path='"$HOME"'/.config/qt6ct/colors/pywal.conf|' "$qt6ct_conf"
   sed -i 's/custom_palette=false/custom_palette=true/' "$qt6ct_conf"
-  log_success "Options have been added to $qt6ct_conf file."
+  log_success "Updated existing $qt6ct_conf"
 else
   mkdir -p "$(dirname "$qt6ct_conf")"
-  cp ./scripts/template/qt/qt.conf $qt6ct_conf
-  log_success "A new $qt6ct_conf file has been created."
+  cp ./scripts/template/qt/qt.conf "$qt6ct_conf"
+  log_success "Created new $qt6ct_conf"
 fi
 
 # -------------------------------------------------------------
-# Env Variables Qt in hyprland
+# Install "pywal-theme-switcher" executable
 # -------------------------------------------------------------
-log_step "Checking the Qt environment variables in Hyprland..."
-if [ "$dir_hypr_conf" ]; then
-  if ! grep -q "QT_QPA_PLATFORMTHEME" "$dir_hypr_conf"; then
-    echo "-- Qt theming" >>"$dir_hypr_conf"
-    echo "hl.env(\"QT_QPA_PLATFORMTHEME\", \"qt6ct\")" >>"$dir_hypr_conf"
-    log_success "Options have been added  to hyprland.conf"
-  else
-    log_info "Already present in hyprland.lua"
-  fi
-else
-  log_warn "hyprland.lua not found, add manually: ${BOLD}hl.env(\"QT_QPA_PLATFORMTHEME\", \"qt6ct\")${NC}"
-fi
-
-# -------------------------------------------------------------
-# Install "pywal-theme-switcher.sh"
-# -------------------------------------------------------------
-log_step "Install theme-sw1tch.sh script..."
-cp -r "./scripts/template/pywal-theme-switcher" $dir_dot_conf
+log_step "Installing pywal-theme-switcher script to ~/.local/bin..."
+cp "./scripts/template/pywal-theme-switcher/pywal-theme-switcher.sh" "$dir_local_bin/pywal-theme-switcher"
+chmod +x "$dir_local_bin/pywal-theme-switcher"
 
 # -------------------------------------------------------------
 # Kitty Theme
 # -------------------------------------------------------------
-log_step "Colors in Kitty terminal"
+log_step "Configuring Kitty terminal colors..."
 if ask_yes_no "Do you want to configure colors in Kitty?"; then
+  mkdir -p "$(dirname "$kitty_conf")"
+  touch "$kitty_conf"
   if ! grep -q "colors-kitty.conf" "$kitty_conf"; then
-    echo -e "\n# Include the colors generated by Pywal\ninclude ~/.cache/wal/colors-kitty.conf" >>"$kitty_conf"
+    echo -e "\n# Include colors generated by Pywal\ninclude ~/.cache/wal/colors-kitty.conf" >>"$kitty_conf"
     log_success "Kitty configured successfully."
   else
-    log_info "Kitty already configured."
+    log_info "Kitty is already configured."
   fi
 else
-  log_info "Skipping colors in Kitty configuration."
+  log_info "Skipping Kitty configuration."
 fi
 
 # -------------------------------------------------------------
 # Hyprland window Theme
 # -------------------------------------------------------------
-log_step "Colors in Hyprland window"
-if ask_yes_no "Do you want to configure colors in Hyprland window?"; then
-  cp ./scripts/template/hypr/colors.lua $dir_hypr_colors
-else
-  log_info "Skipping colors in Hyprland configuration."
-fi
+if command -v hyprctl >/dev/null 2>&1 || [ -d "$dir_hypr" ]; then
+  mkdir -p "$dir_hypr_colors"
 
-# -------------------------------------------------------------
-# Set up shortcut to change the theme in the Hyprland configuration
-# -------------------------------------------------------------
-log_step "Set up a shortcut to change the theme in the Hyprland configuration"
-if ask_yes_no "Do you want to configure a shortcut to change the theme?"; then
-  TARGET_FILE=$(grep -rl "hl.bind" "$dir_hypr" | head -n 1)
-
-  if [ -n "$TARGET_FILE" ]; then
-    # Check if the keybind combination (SHIFT + T) or the theme folder already exists
-    if ! grep -q -E "SHIFT \+ T|pywal-theme-switcher" "$TARGET_FILE"; then
-      # Insert the new bind exactly above the first occurrence of "hl.bind"
-      sed -i '0,/hl.bind/{s/hl.bind/hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("sh ~\/.config\/pywal-theme-switcher\/pywal-theme-switcher.sh"))\nhl.bind/}' "$TARGET_FILE"
-
-      log_success "Successfully added theme shortcut to: ${BLUE}${TARGET_FILE}${NC}"
-      log_success "--> ${BLUE}${BOLD}\"hl.bind(mainMod .. \" + SHIFT + T\", ...)\"${NC}"
+  # -------------------------------------------------------------
+  # Env Variables Qt in Hyprland (Lua format)
+  # -------------------------------------------------------------
+  log_step "Checking Qt environment variables in Hyprland..."
+  if [ -f "$dir_hypr_conf" ]; then
+    if ! grep -q "QT_QPA_PLATFORMTHEME" "$dir_hypr_conf"; then
+      echo -e "\n-- Qt theming" >>"$dir_hypr_conf"
+      echo 'hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")' >>"$dir_hypr_conf"
+      log_success "Added Qt environment variable to hyprland.lua"
     else
-      log_info "Theme switcher shortcut or SHIFT+T bind already exists in ${BLUE}${TARGET_FILE}${NC}, skipping."
-      log_info "Add manually a keyboard shortcut to your Hyprland configuration --> ${BLUE}${BOLD}\"hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"sh ~/.config/pywal-theme-switcher/pywal-theme-switcher.sh\"))\"${NC}"
+      log_info "Qt environment variable already present in hyprland.lua"
     fi
   else
-    log_warn "No active configuration file with 'hl.bind' was found in $dir_hypr\nAdd manually a keyboard shortcut to your Hyprland configuration --> ${BLUE}${BOLD}\"hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"sh ~/.config/pywal-theme-switcher/pywal-theme-switcher.sh\"))\"${NC}"
+    log_warn "hyprland.lua not found. Manually add: hl.env(\"QT_QPA_PLATFORMTHEME\", \"qt6ct\")"
   fi
-else
-  log_info "Skipping colors in Hyprland configuration."
+
+  log_step "Configuring Hyprland window colors..."
+  if ask_yes_no "Do you want to copy Hyprland color configuration?"; then
+    cp ./scripts/template/hypr/colors.lua "$dir_hypr_colors/colors.lua"
+    log_success "Colors file copied to $dir_hypr_colors/colors.lua"
+  else
+    log_info "Skipping Hyprland color configuration."
+  fi
+
+  # -------------------------------------------------------------
+  # Set up shortcut to change the theme in Hyprland
+  # -------------------------------------------------------------
+  log_step "Setting up Hyprland keybinding..."
+  if ask_yes_no "Do you want to configure the theme switcher keybind?"; then
+    TARGET_FILE=$(grep -rl "hl.bind" "$dir_hypr" | head -n 1)
+
+    if [ -n "$TARGET_FILE" ]; then
+      if ! grep -q "~/.local/bin/pywal-theme-switcher" "$TARGET_FILE"; then
+        # Inject binding using explicit 'sh ~/.local/bin/pywal-theme-switcher' call
+        sed -i '0,/hl.bind/{s|hl.bind|hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("sh ~/.local/bin/pywal-theme-switcher"))\nhl.bind|}' "$TARGET_FILE"
+        log_success "Added keybind to: ${BLUE}${TARGET_FILE}${NC}"
+      else
+        log_info "Keybind already present in ${BLUE}${TARGET_FILE}${NC}, skipping."
+      fi
+    else
+      log_warn "No active file with 'hl.bind' found in $dir_hypr."
+      log_warn "Manually add: hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"sh ~/.local/bin/pywal-theme-switcher\"))"
+    fi
+  else
+    log_info "Skipping Hyprland keybind configuration."
+  fi
 fi
 
 echo ""
-echo "🎉 Pywal Theme Switcher Setup complete!"
+echo "🎉 Pywal Theme Switcher setup complete!"
 echo ""
-echo "Remaining manual checklist:"
+echo "⭐ If you like it, drop a star! It helps a lot 🫰💖"
+echo "https://github.com/ByTrist4n/pywal-theme-switcher"
+echo ""
+echo "Next steps:"
 echo " 1. Copy your wallpapers to $dir_user_wallpaper"
-echo " 2. Run "$dir_dot_conf/pywal-theme-switcher/pywal-theme-switcher.sh" to test"
-echo "Enjoy"
+echo " 2. Run \"pywal-theme-switcher\" from your terminal to test"
 echo ""
