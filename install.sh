@@ -152,7 +152,7 @@ PACMAN_PKGS=(
 )
 
 if [[ "$preferred_launcher" == "rofi" ]]; then
-  PACMAN_PKGS+=(rofi-wayland)
+  PACMAN_PKGS+=(rofi)
 fi
 
 sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
