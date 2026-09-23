@@ -58,7 +58,7 @@ dir_switcher_config="$dir_dot_conf/pywal-theme-switcher"
 switcher_config_toml="$dir_switcher_config/config.toml"
 
 # Fallback for launcher choice if not previously prompt-assigned
-PREFERRED_LAUNCHER="${PREFERRED_LAUNCHER:-rofi}"
+preferred_launcher="rofi"
 
 log_step "Creating directory structure..."
 mkdir -p \
@@ -74,31 +74,55 @@ mkdir -p \
 # -------------------------------------------------------------
 # Configuration File Creation (TOML)
 # -------------------------------------------------------------
-echo ""
-log_step "Selecting preferred application launcher..."
-echo "Which launcher do you want to use for wallpaper selection?"
-echo "  1) rofi (Default)"
-echo "  2) walker"
+# Launcher selection
+case "${1:-}" in
+--walker)
+  preferred_launcher="walker"
+  ;;
 
-while true; do
-  read -rp "Select option [1-2]: " launcher_choice
+--rofi)
+  preferred_launcher="rofi"
+  ;;
 
-  case "$launcher_choice" in
-  1)
-    PREFERRED_LAUNCHER="rofi"
-    break
-    ;;
-  2)
-    PREFERRED_LAUNCHER="walker"
-    break
-    ;;
-  *)
-    log_warn "Invalid selection. Please enter 1 or 2."
-    ;;
-  esac
-done
+--help | -h)
+  echo "Usage: $0 [--walker|--rofi]"
+  exit 0
+  ;;
 
-log_info "Selected launcher: $PREFERRED_LAUNCHER"
+"")
+  echo ""
+  log_step "Selecting preferred application launcher..."
+  echo "Which launcher do you want to use for wallpaper selection?"
+  echo "  1) rofi (Default)"
+  echo "  2) walker"
+
+  while true; do
+    read -rp "Select option [1-2]: " launcher_choice
+
+    case "$launcher_choice" in
+    1)
+      preferred_launcher="rofi"
+      break
+      ;;
+    2)
+      preferred_launcher="walker"
+      break
+      ;;
+    *)
+      log_warn "Invalid selection. Please enter 1 or 2."
+      ;;
+    esac
+  done
+  ;;
+
+*)
+  log_error "Unknown option: $1"
+  echo "Usage: $0 [--walker|--rofi]"
+  exit 1
+  ;;
+esac
+
+log_info "Selected launcher: $preferred_launcher"
 
 cat <<EOF >"$switcher_config_toml"
 # Pywal Theme Switcher Configuration
@@ -106,7 +130,7 @@ cat <<EOF >"$switcher_config_toml"
 [general]
 # Preferred application launcher for wallpaper selection
 # Options: "rofi", "walker"
-launcher = "$PREFERRED_LAUNCHER"
+launcher = "$preferred_launcher"
 
 [notifications]
 enable = true
@@ -127,7 +151,7 @@ PACMAN_PKGS=(
   libnotify
 )
 
-if [[ "$PREFERRED_LAUNCHER" == "rofi" ]]; then
+if [[ "$preferred_launcher" == "rofi" ]]; then
   PACMAN_PKGS+=(rofi-wayland)
 fi
 
@@ -144,7 +168,7 @@ AUR_PKGS=(
   kvantum
 )
 
-if [[ "$PREFERRED_LAUNCHER" == "walker" ]]; then
+if [[ "$preferred_launcher" == "walker" ]]; then
   AUR_PKGS+=(walker)
 fi
 
