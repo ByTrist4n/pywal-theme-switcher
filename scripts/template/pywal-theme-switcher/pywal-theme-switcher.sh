@@ -9,12 +9,12 @@
 dir_wallpaper="$HOME/Pictures/Wallpapers"
 hypr_colors="$HOME/.config/hypr/config/colors.lua"
 wal_colors="$HOME/.cache/wal/colors.lua"
-hooks_dir="$HOME/.config/pywal-theme-switcher/post-hooks.d"
+hooks_dir="$HOME/.local/bin/pywal-theme-switcher/post-hooks.d"
 
 # Select wallpaper with rofi
 selected=$(find "$dir_wallpaper" -type f | while read -r line; do
   echo -e "$(basename "$line")\x00icon\x1f$line"
-done | rofi -dmenu -theme ~/.config/rofi/wallpaper.rasi)
+done | rofi -dmenu)
 
 [ -z "$selected" ] && exit 0
 
