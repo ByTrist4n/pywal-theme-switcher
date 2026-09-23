@@ -75,5 +75,5 @@ fi
 
 # Desktop Notification
 if command -v notify-send &>/dev/null; then
-  notify-send "🎨 Theme Updated" "$(basename "$wallpaper")"
+  notify-send -i "$HOME/.local/share/icons/pywal-theme-switcher.svg" -a "Pywal Theme Switcher" "🎨 Theme updated successfully!" "$(basename "$wallpaper")"
 fi

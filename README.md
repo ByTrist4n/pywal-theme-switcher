@@ -1,5 +1,9 @@
 <div align="center">
 
+<img src="./assets/pywal-theme-switcher.svg" alt="Icon Pywal Theme Switcher" width="128" />
+
+<br>
+
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Sixtyfour&size=24&pause=1000&color=1793d1&width=480&lines=Pywal+Theme+Switcher;ByTrist4n)](https://git.io/typing-svg)
 
 [![GitHub stars](https://img.shields.io/github/stars/ByTrist4n/pywal-theme-switcher?style=for-the-badge&logo=github&color=daaa3f&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
@@ -23,7 +27,7 @@
 
 # Preview
 
-![Screenshot Switch theme](assets/screenshots/screenshot_theme_switch.jpg)
+![Screenshot Switch theme](./assets/screenshots/preview-pywal-theme-switcher.jpg)
 
 <br>
 
