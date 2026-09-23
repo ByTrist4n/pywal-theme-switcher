@@ -215,16 +215,16 @@ if command -v hyprctl >/dev/null 2>&1 || [ -d "$dir_hypr" ]; then
     TARGET_FILE=$(grep -rl "hl.bind" "$dir_hypr" | head -n 1)
 
     if [ -n "$TARGET_FILE" ]; then
-      if ! grep -q "~/.local/bin/pywal-theme-switcher" "$TARGET_FILE"; then
+      if ! grep -q "~/.local/bin/pywal-theme-switcher/pywal-theme-switcher.sh" "$TARGET_FILE"; then
         # Inject binding using executable path
-        sed -i '0,/hl.bind/{s|hl.bind|hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/.local/bin/pywal-theme-switcher"))\nhl.bind|}' "$TARGET_FILE"
+        sed -i '0,/hl.bind/{s|hl.bind|hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/.local/bin/pywal-theme-switcher/pywal-theme-switcher.sh"))\nhl.bind|}' "$TARGET_FILE"
         log_success "Added keybind to: ${BLUE}${TARGET_FILE}${NC}"
       else
         log_info "Keybind already present in ${BLUE}${TARGET_FILE}${NC}, skipping."
       fi
     else
       log_warn "No active file with 'hl.bind' found in $dir_hypr."
-      log_warn "Manually add: hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"~/.local/bin/pywal-theme-switcher\"))"
+      log_warn "Manually add: hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"~/.local/bin/pywal-theme-switcher/pywal-theme-switcher.sh\"))"
     fi
   else
     log_info "Skipping Hyprland keybind configuration."
