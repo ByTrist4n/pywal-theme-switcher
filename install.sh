@@ -93,7 +93,7 @@ case "${1:-}" in
 
 "")
   echo ""
-  log_step "Selecting preferred application launcher..."
+  log_info "Selecting preferred application launcher..."
   echo "Which launcher do you want to use for wallpaper selection?"
   echo "  1) rofi (Default)"
   echo "  2) walker"
@@ -212,12 +212,14 @@ export PATH="$dir_local_bin:$PATH"
 # Template Kvantum SVG & Pywal templates
 # -------------------------------------------------------------
 log_step "Installing templates for Qt, GTK, Pywal, and Hyprland..."
+
 cp -rT ./scripts/template/wal "$dir_wal"
 
 # -------------------------------------------------------------
 # Install Rofi Theme (.rasi)
 # -------------------------------------------------------------
 log_step "Installing Rofi theme configuration..."
+
 if [[ -f "./scripts/template/pywal-theme-switcher/rofi/pywal-theme-switcher.rasi" ]]; then
   cp "./scripts/template/pywal-theme-switcher/rofi/pywal-theme-switcher.rasi" "$dir_rofi_themes/pywal-theme-switcher.rasi"
   log_success "Copied Rofi theme to $dir_rofi_themes/pywal-theme-switcher.rasi"
@@ -307,7 +309,7 @@ if command -v hyprctl >/dev/null 2>&1 || [[ -d "$dir_hypr" ]]; then
   # -------------------------------------------------------------
   # Env Variables Qt in Hyprland (Lua format)
   # -------------------------------------------------------------
-  log_step "Checking Qt environment variables in Hyprland..."
+  log_info "Checking Qt environment variables in Hyprland..."
 
   if [[ -f "$dir_hypr_conf" ]]; then
     if ! grep -Fq "QT_QPA_PLATFORMTHEME" "$dir_hypr_conf"; then
@@ -321,7 +323,7 @@ if command -v hyprctl >/dev/null 2>&1 || [[ -d "$dir_hypr" ]]; then
     log_warn "hyprland.lua not found. Manually add: hl.env(\"QT_QPA_PLATFORMTHEME\", \"qt6ct\")"
   fi
 
-  log_step "Configuring Hyprland window colors..."
+  log_info "Configuring Hyprland window colors..."
 
   if ask_yes_no "Do you want to copy Hyprland color configuration?"; then
     cp ./scripts/template/hypr/colors.lua "$dir_hypr_colors/colors.lua"
