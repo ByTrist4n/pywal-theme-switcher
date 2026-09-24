@@ -200,7 +200,7 @@ pywal-theme-switcher
 or:
 
 ```bash
-~/.local/bin/pywal-theme-switcher/pywal-theme-switcher.sh
+~/.local/bin/pywal-theme-switcher
 ```
 
 <br>

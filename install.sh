@@ -47,6 +47,7 @@ dir_local_icons="$HOME/.local/share/icons"
 dir_hypr="$dir_dot_conf/hypr"
 dir_hypr_conf="$dir_hypr/hyprland.lua"
 dir_hypr_colors="$dir_hypr/config"
+dir_rofi_themes="$dir_dot_conf/rofi/themes"
 dir_user_wallpaper="$HOME/Pictures/Wallpapers"
 dir_wal="$dir_dot_conf/wal"
 dir_kvantum_pywal="$dir_dot_conf/Kvantum/pywal"
@@ -69,6 +70,7 @@ mkdir -p \
   "$dir_wal" \
   "$dir_kvantum_pywal" \
   "$dir_qt6ct_colors" \
+  "$dir_rofi_themes" \
   "$dir_switcher_config"
 
 # -------------------------------------------------------------
@@ -213,6 +215,15 @@ log_step "Installing templates for Qt, GTK, Pywal, and Hyprland..."
 cp -rT ./scripts/template/wal "$dir_wal"
 
 # -------------------------------------------------------------
+# Install Rofi Theme (.rasi)
+# -------------------------------------------------------------
+log_step "Installing Rofi theme configuration..."
+if [[ -f "./scripts/template/pywal-theme-switcher/rofi/pywal-theme-switcher.rasi" ]]; then
+  cp "./scripts/template/pywal-theme-switcher/rofi/pywal-theme-switcher.rasi" "$dir_rofi_themes/pywal-theme-switcher.rasi"
+  log_success "Copied Rofi theme to $dir_rofi_themes/pywal-theme-switcher.rasi"
+fi
+
+# -------------------------------------------------------------
 # Symlink qt6ct/Kvantum colors → cache wal
 # -------------------------------------------------------------
 log_step "Linking qt6ct and Kvantum color schemes..."
@@ -244,8 +255,8 @@ fi
 # -------------------------------------------------------------
 log_step "Installing pywal-theme-switcher script to ~/.local/bin..."
 
-cp -r "./scripts/template/pywal-theme-switcher" "$dir_local_bin"
-chmod +x "$dir_local_bin/pywal-theme-switcher/pywal-theme-switcher.sh"
+cp "./scripts/template/pywal-theme-switcher/pywal-theme-switcher" "$dir_local_bin"
+chmod +x "$dir_local_bin/pywal-theme-switcher"
 
 # -------------------------------------------------------------
 # Install "pywal-theme-switcher.desktop"
@@ -259,7 +270,7 @@ cat <<EOF >"$dir_local_apps/pywal-theme-switcher.desktop"
 [Desktop Entry]
 Name=Pywal Theme Switcher
 Comment=Dynamic Pywal Theme Switcher for Hyprland, GTK, Qt & Quickshell
-Exec=$dir_local_bin/pywal-theme-switcher/pywal-theme-switcher.sh
+Exec=$dir_local_bin/pywal-theme-switcher
 Icon=pywal-theme-switcher
 Terminal=false
 Type=Application
@@ -328,16 +339,16 @@ if command -v hyprctl >/dev/null 2>&1 || [[ -d "$dir_hypr" ]]; then
     TARGET_FILE=$(grep -rl "hl.bind" "$dir_hypr" | head -n 1)
 
     if [[ -n "$TARGET_FILE" ]]; then
-      if ! grep -Fq "~/.local/bin/pywal-theme-switcher/pywal-theme-switcher.sh" "$TARGET_FILE"; then
+      if ! grep -Fq "pywal-theme-switcher" "$TARGET_FILE"; then
         # Inject binding using executable path
-        sed -i '0,/hl.bind/{s|hl.bind|hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/.local/bin/pywal-theme-switcher/pywal-theme-switcher.sh"))\nhl.bind|}' "$TARGET_FILE"
+        sed -i '0,/hl.bind/{s|hl.bind|hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("pywal-theme-switcher"))\nhl.bind|}' "$TARGET_FILE"
         log_success "Added keybind to: ${BLUE}${TARGET_FILE}${NC}"
       else
         log_info "Keybind already present in ${BLUE}${TARGET_FILE}${NC}, skipping."
       fi
     else
       log_warn "No active file with 'hl.bind' found in $dir_hypr."
-      log_warn "Manually add: hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"~/.local/bin/pywal-theme-switcher/pywal-theme-switcher.sh\"))"
+      log_warn "Manually add: hl.bind(mainMod .. \" + SHIFT + T\", hl.dsp.exec_cmd(\"pywal-theme-switcher\"))"
     fi
   else
     log_info "Skipping Hyprland keybind configuration."
@@ -353,6 +364,7 @@ echo "https://github.com/ByTrist4n/pywal-theme-switcher"
 echo ""
 echo "Next steps:"
 echo " 1. Copy your wallpapers to $dir_user_wallpaper"
-echo " 2. Reload and Run \"pywal-theme-switcher\" from your terminal to test"
+echo " 2. Reload your shell or open a new terminal"
+echo " 3. Run \"pywal-theme-switcher\" to test"
 echo ""
 echo "────────────────────────────────────────────────────────────────────────"
