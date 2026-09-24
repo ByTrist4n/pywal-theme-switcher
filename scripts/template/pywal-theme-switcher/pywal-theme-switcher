@@ -11,7 +11,7 @@ set -e
 dir_wallpaper="$HOME/Pictures/Wallpapers"
 hypr_colors="$HOME/.config/hypr/config/colors.lua"
 wal_colors="$HOME/.cache/wal/colors.lua"
-hooks_dir="$HOME/.local/bin/pywal-theme-switcher/post-hooks.d"
+hooks_dir="$HOME/.local/share/pywal-theme-switcher/post-hooks.d"
 config_file="$HOME/.config/pywal-theme-switcher/config.toml"
 rofi_theme="$HOME/.config/rofi/themes/pywal-theme-switcher.rasi"
 
