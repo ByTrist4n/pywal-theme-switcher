@@ -170,8 +170,13 @@ AUR_PKGS=(
   kvantum
 )
 
+# If Walker is chosen, include Walker AND Elephant ecosystem dependencies
 if [[ "$preferred_launcher" == "walker" ]]; then
-  AUR_PKGS+=(walker)
+  AUR_PKGS+=(
+    walker
+    elephant
+    elephant-files
+  )
 fi
 
 yay -S --needed --noconfirm "${AUR_PKGS[@]}"
