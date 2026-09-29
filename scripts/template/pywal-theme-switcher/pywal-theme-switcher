@@ -53,9 +53,13 @@ fi
 
 wallpaper=$(find "$dir_wallpaper" -type f -name "$selected" -print -quit)
 
-# Apply wallpaper with transition
+# Apply wallpaper with circle transition (outer)
 if command -v awww &>/dev/null; then
-  awww img "$wallpaper" --transition-type grow --transition-duration 1
+  awww img "$wallpaper" \
+    --transition-type grow \
+    --transition-pos 0.5,0.7 \
+    --transition-step 90 \
+    --transition-fps 60
 fi
 
 # Generate colors via wpgtk (updates oomox, pywal and Kvantum templates)
