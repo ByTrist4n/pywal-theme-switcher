@@ -79,6 +79,14 @@ You can also select the launcher directly from the command line:
 
 If no option is provided, the installer will ask you which launcher you want to use.
 
+#### Non-Interactive Installation
+
+If you want to run the installer non-interactively (e.g., in automated setup scripts), pass the -y or --yes flag to automatically accept all configuration prompts:
+
+```bash
+./install.sh --rofi -y
+```
+
 <br>
 
 # 🛠️ Tech Stack
