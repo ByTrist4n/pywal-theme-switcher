@@ -58,8 +58,38 @@ kitty_conf="$dir_dot_conf/kitty/kitty.conf"
 dir_switcher_config="$dir_dot_conf/pywal-theme-switcher"
 switcher_config_toml="$dir_switcher_config/config.toml"
 
-# Fallback for launcher choice if not previously prompt-assigned
-preferred_launcher="rofi"
+# Defaults
+preferred_launcher=""
+export auto_yes=false
+
+# -------------------------------------------------------------
+# Command Line Argument Parsing Loop
+# -------------------------------------------------------------
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+  --walker)
+    preferred_launcher="walker"
+    shift
+    ;;
+  --rofi)
+    preferred_launcher="rofi"
+    shift
+    ;;
+  -y | --yes)
+    export auto_yes=true
+    shift
+    ;;
+  --help | -h)
+    echo "Usage: $0 [--walker|--rofi] [-y|--yes]"
+    exit 0
+    ;;
+  *)
+    log_error "Unknown option: $1"
+    echo "Usage: $0 [--walker|--rofi] [-y|--yes]"
+    exit 1
+    ;;
+  esac
+done
 
 log_step "Creating directory structure..."
 mkdir -p \
@@ -76,53 +106,35 @@ mkdir -p \
 # -------------------------------------------------------------
 # Configuration File Creation (TOML)
 # -------------------------------------------------------------
-# Launcher selection
-case "${1:-}" in
---walker)
-  preferred_launcher="walker"
-  ;;
+if [[ -z "$preferred_launcher" ]]; then
+  if [[ "$auto_yes" == "true" ]]; then
+    preferred_launcher="rofi"
+  else
+    echo ""
+    log_info "Selecting preferred application launcher..."
+    echo "Which launcher do you want to use for wallpaper selection?"
+    echo "  1) rofi (Default)"
+    echo "  2) walker"
 
---rofi)
-  preferred_launcher="rofi"
-  ;;
+    while true; do
+      read -rp "Select option [1-2]: " launcher_choice
 
---help | -h)
-  echo "Usage: $0 [--walker|--rofi]"
-  exit 0
-  ;;
-
-"")
-  echo ""
-  log_info "Selecting preferred application launcher..."
-  echo "Which launcher do you want to use for wallpaper selection?"
-  echo "  1) rofi (Default)"
-  echo "  2) walker"
-
-  while true; do
-    read -rp "Select option [1-2]: " launcher_choice
-
-    case "$launcher_choice" in
-    1)
-      preferred_launcher="rofi"
-      break
-      ;;
-    2)
-      preferred_launcher="walker"
-      break
-      ;;
-    *)
-      log_warn "Invalid selection. Please enter 1 or 2."
-      ;;
-    esac
-  done
-  ;;
-
-*)
-  log_error "Unknown option: $1"
-  echo "Usage: $0 [--walker|--rofi]"
-  exit 1
-  ;;
-esac
+      case "$launcher_choice" in
+      1)
+        preferred_launcher="rofi"
+        break
+        ;;
+      2)
+        preferred_launcher="walker"
+        break
+        ;;
+      *)
+        log_warn "Invalid selection. Please enter 1 or 2."
+        ;;
+      esac
+    done
+  fi
+fi
 
 log_info "Selected launcher: $preferred_launcher"
 
@@ -202,7 +214,7 @@ fi
 yay -S --needed --noconfirm "${AUR_PKGS[@]}"
 
 # -------------------------------------------------------------
-# Ensure ~/.local/bin is in PATH for shell configuration files
+# Ensure ~/.local/bin is in PATH
 # -------------------------------------------------------------
 log_step "Checking PATH configuration for shells..."
 
