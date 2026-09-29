@@ -183,7 +183,7 @@ log_step "Installing AUR packages via Yay..."
 
 AUR_PKGS=(
   awww
-  pywal-16-git
+  python-pywal16-git
   wpgtk
   nwg-look
   papirus-icon-theme
