@@ -257,8 +257,8 @@ cp -rT ./scripts/template/wal "$dir_wal"
 # -------------------------------------------------------------
 log_step "Installing Rofi configuration directory..."
 
-if [[ -d "./scripts/template/pywal-theme-switcher/rofi" ]]; then
-  cp -rT "./scripts/template/pywal-theme-switcher/rofi" "$dir_rofi"
+if [[ -d "./scripts/template/rofi" ]]; then
+  cp -rT "./scripts/template/rofi" "$dir_rofi"
   log_success "Copied full Rofi configuration to $dir_rofi"
 fi
 
