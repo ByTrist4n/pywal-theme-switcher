@@ -47,7 +47,7 @@ dir_local_icons="$HOME/.local/share/icons"
 dir_hypr="$dir_dot_conf/hypr"
 dir_hypr_conf="$dir_hypr/hyprland.lua"
 dir_hypr_colors="$dir_hypr/config"
-dir_rofi_themes="$dir_dot_conf/rofi/themes"
+dir_rofi="$dir_dot_conf/rofi"
 dir_user_wallpaper="$HOME/Pictures/Wallpapers"
 dir_wal="$dir_dot_conf/wal"
 dir_kvantum_pywal="$dir_dot_conf/Kvantum/pywal"
@@ -100,7 +100,7 @@ mkdir -p \
   "$dir_wal" \
   "$dir_kvantum_pywal" \
   "$dir_qt6ct_colors" \
-  "$dir_rofi_themes" \
+  "$dir_rofi" \
   "$dir_switcher_config"
 
 # -------------------------------------------------------------
@@ -253,13 +253,13 @@ log_step "Installing templates for Qt, GTK, Pywal, and Hyprland..."
 cp -rT ./scripts/template/wal "$dir_wal"
 
 # -------------------------------------------------------------
-# Install Rofi Theme (.rasi)
+# Install Full Rofi Configuration Directory
 # -------------------------------------------------------------
-log_step "Installing Rofi theme configuration..."
+log_step "Installing Rofi configuration directory..."
 
-if [[ -f "./scripts/template/pywal-theme-switcher/rofi/pywal-theme-switcher.rasi" ]]; then
-  cp "./scripts/template/pywal-theme-switcher/rofi/pywal-theme-switcher.rasi" "$dir_rofi_themes/pywal-theme-switcher.rasi"
-  log_success "Copied Rofi theme to $dir_rofi_themes/pywal-theme-switcher.rasi"
+if [[ -d "./scripts/template/pywal-theme-switcher/rofi" ]]; then
+  cp -rT "./scripts/template/pywal-theme-switcher/rofi" "$dir_rofi"
+  log_success "Copied full Rofi configuration to $dir_rofi"
 fi
 
 # -------------------------------------------------------------
