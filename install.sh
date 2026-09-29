@@ -143,10 +143,27 @@ log_success "Created configuration file at $switcher_config_toml"
 # -------------------------------------------------------------
 # Install Dependencies
 # -------------------------------------------------------------
+# Helper function to ensure yay is installed
+ensure_aur_helper() {
+  if ! command -v yay &>/dev/null; then
+    log_info "AUR helper (yay) not found. Bootstrapping yay..."
+    local tmp_dir
+    tmp_dir=$(mktemp -d)
+    if git clone https://aur.archlinux.org/yay.git "$tmp_dir/yay" &&
+      (cd "$tmp_dir/yay" && makepkg -si --noconfirm); then
+      rm -rf "$tmp_dir"
+      log_success "yay successfully bootstrapped!"
+    else
+      rm -rf "$tmp_dir"
+      log_error "Failed to bootstrap yay."
+      exit 1
+    fi
+  fi
+}
+
 log_step "Installing core packages via Pacman..."
 
 PACMAN_PKGS=(
-  yay
   ttf-jetbrains-mono-nerd
   qt5ct
   qt6ct
@@ -159,19 +176,27 @@ fi
 
 sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
 
+# Ensure yay is ready before calling it
+ensure_aur_helper
+
 log_step "Installing AUR packages via Yay..."
 
 AUR_PKGS=(
   awww
-  pywal-16-git
+  python-pywal16-git
   wpgtk
   nwg-look
   papirus-icon-theme
   kvantum
 )
 
+# If Walker is chosen, include Walker AND Elephant ecosystem dependencies
 if [[ "$preferred_launcher" == "walker" ]]; then
-  AUR_PKGS+=(walker)
+  AUR_PKGS+=(
+    walker
+    elephant
+    elephant-files
+  )
 fi
 
 yay -S --needed --noconfirm "${AUR_PKGS[@]}"
