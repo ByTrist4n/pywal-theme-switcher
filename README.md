@@ -8,8 +8,9 @@
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Sixtyfour&size=24&pause=1000&color=1793d1&width=480&lines=Pywal+Theme+Switcher;ByTrist4n)](https://git.io/typing-svg)
 
-[![GitHub stars](https://img.shields.io/github/stars/ByTrist4n/pywal-theme-switcher?style=for-the-badge&logo=github&color=daaa3f&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
+[![https://img.shields.io/github/v/release/ByTrist4n/pywal-theme-switcher?style=for-the-badge&color=1793d1&labelColor=252733](https://img.shields.io/github/v/release/ByTrist4n/pywal-theme-switcher?style=for-the-badge&color=1793d1&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
 [![Last Commit](https://img.shields.io/github/last-commit/ByTrist4n/pywal-theme-switcher?style=for-the-badge&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
+[![GitHub stars](https://img.shields.io/github/stars/ByTrist4n/pywal-theme-switcher?style=for-the-badge&logo=github&color=daaa3f&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
 [![Repo Size](https://img.shields.io/github/repo-size/ByTrist4n/pywal-theme-switcher?style=for-the-badge&logo=codesandbox&color=DDB&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
 [![Hyprland](https://img.shields.io/badge/Hyprland-v0.55%2B-1793d1?logo=hyprland&style=for-the-badge&logoColor=1793d1&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
 
@@ -25,7 +26,11 @@ Hyprland and Quickshell are optional, so Pywal Theme Switcher can also be used i
 
 > If you like this setup, please consider leaving **a star ⭐ on GitHub**! It helps a lot! 🫰💖
 
-> 🚀 Need Automated Installation? To install and orchestrate this environment automatically on CachyOS / Arch Linux, check out my installer repository: [ByTrist4n / hyprland-setup](https://github.com/ByTrist4n/hyprland-setup)
+> [!TIP]
+> 🚀 **Looking for a Complete Out-of-the-Box Experience?**
+> **`pywal-theme-switcher` is natively integrated and pre-configured** inside my full Arch Linux / CachyOS Rice! Get seamless color switching, automated GTK/Hyprland/Quickshell theming, and an optimized desktop setup with a single command:
+>
+> 🗂️ **Installer Repository:** [ByTrist4n / hyprland-setup](https://github.com/ByTrist4n/hyprland-setup)
 
 <br>
 
@@ -65,13 +70,13 @@ During the installation, you can choose between **Rofi** and **Walker** as your 
 
 You can also select the launcher directly from the command line:
 
-**Walker:**
+#### Walker
 
 ```bash
 ./install.sh --walker
 ```
 
-**Rofi:**
+#### Rofi
 
 ```bash
 ./install.sh --rofi
@@ -89,9 +94,27 @@ If you want to run the installer non-interactively (e.g., in automated setup scr
 
 <br>
 
+# 🎨 How It Works
+
+When you launch `pywal-theme-switcher`, the script:
+
+1. 🖼️ Lets you select a wallpaper using **Rofi or Walker**.
+2. 🌈 Generates a new color palette using **Pywal / WPGTK**.
+3. 🖥️ Applies the generated colors to the configured applications.
+4. 🪟 Updates **Hyprland** colors.
+5. 🎨 Updates **Qt / Kvantum** themes.
+6. 🐧 Updates **GTK** theming.
+7. 🛸 Refreshes **Quickshell**.
+8. 🪝 Executes all executable post-hooks.
+9. 🔄 Reloads the relevant desktop components.
+
+<br>
+
 # 🛠️ Tech Stack
 
 [![Arch Linux](https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge)](https://archlinux.org)
+[![CachyOS](https://img.shields.io/badge/CachyOS-00A88F?style=for-the-badge&logo=cachyos&logoColor=white)](https://cachyos.org)
+
 [![Hyprland](https://img.shields.io/badge/Hyprland-1793D1?logo=hyprland&logoColor=fff&style=for-the-badge)](https://hyprland.org)
 
 ### 📦 Core Dependencies (Pacman)
@@ -118,22 +141,6 @@ If you want to run the installer non-interactively (e.g., in automated setup scr
 | 🚶 [walker](https://github.com/abenz1267/walker)                                      | Application launcher and wallpaper selector         |
 
 > **Note:** `walker` is only installed when Walker is selected.
-
-<br>
-
-# 🎨 How It Works
-
-When you launch `pywal-theme-switcher`, the script:
-
-1. 🖼️ Lets you select a wallpaper using **Rofi or Walker**.
-2. 🌈 Generates a new color palette using **Pywal / WPGTK**.
-3. 🖥️ Applies the generated colors to the configured applications.
-4. 🪟 Updates **Hyprland** colors.
-5. 🎨 Updates **Qt / Kvantum** themes.
-6. 🐧 Updates **GTK** theming.
-7. 🛸 Refreshes **Quickshell**.
-8. 🪝 Executes all executable post-hooks.
-9. 🔄 Reloads the relevant desktop components.
 
 <br>
 
