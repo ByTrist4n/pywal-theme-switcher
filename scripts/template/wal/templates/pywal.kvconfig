@@ -1,7 +1,7 @@
 ### ~/config/wal/templates/pywal.kvconfig
 
 [%General]
-author=Vince Liuice, based on KvAdapta by Tsu Jan
+author=byTrist4n, based on Vince Liuice, based on KvAdapta by Tsu Jan
 comment=An uncomplicated theme inspired by the Materia GTK theme (Dynamic Pywal Version)
 x11drag=menubar_and_primary_toolbar
 alt_mnemonic=true
@@ -77,36 +77,26 @@ menu_blur_radius=0
 tooltip_blur_radius=0
 
 [GeneralColors]
-# Primary background colors mapped to pywal dark shades
 window.color={color0}
 base.color={color0}
-alt.base.color={color8}
-
-# UI Elements and highlights
-button.color={color2}
-light.color={color1}
-mid.light.color={color1}
-dark.color={color0}
-mid.color={color0}
-highlight.color={color2}
-inactive.highlight.color={color8}
-
-# Text and typography
-text.color={color7}
-window.text.color={color7}
-button.text.color={color7}
+alt.base.color={color8.lighten(10%)}
+button.color={color0.lighten(5%)}
+light.color={color8.darken(3%)}
+mid.light.color={color8.darken(5%)}
+dark.color={color0.lighten(2%)}
+mid.color={color0.lighten(3%)}
+highlight.color={color12}
+inactive.highlight.color={color12}
+text.color={foreground}
+window.text.color={foreground}
+button.text.color={foreground}
 disabled.text.color={color8}
-tooltip.text.color={color7}
+tooltip.text.color={foreground}
 highlight.text.color={color0}
-progress.indicator.text.color={color7}
-
-# Links mapping
-link.color={color4}
-link.visited.color={color5}
 
 [Hacks]
 transparent_ktitle_label=true
-transparent_dolphin_view=false
+transparent_dolphin_view=true
 transparent_pcmanfm_sidepane=true
 blur_translucent=false
 transparent_menutitle=true
@@ -142,10 +132,10 @@ frame.right=6
 interior=true
 interior.element=button
 indicator.size=8
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
 text.shadow=0
 text.margin=4
 text.iconspacing=4
@@ -154,10 +144,10 @@ frame.expansion=0
 
 [PanelButtonTool]
 inherits=PanelButtonCommand
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
 text.bold=false
 indicator.element=arrow
 indicator.size=0
@@ -172,10 +162,10 @@ frame.bottom=16
 frame.left=16
 frame.right=16
 indicator.element=tarrow
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
 text.bold=false
 frame.expansion=32
 
@@ -187,14 +177,14 @@ frame.top=1
 frame.bottom=1
 frame.left=1
 frame.right=1
-text.normal.color={color7}
+text.normal.color={foreground}
 
 [DockTitle]
 inherits=PanelButtonCommand
 frame=false
 interior=false
-text.normal.color={color7}
-text.focus.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
 text.bold=false
 
 [IndicatorSpinBox]
@@ -207,7 +197,7 @@ frame.left=2
 frame.right=2
 indicator.element=spin
 indicator.size=8
-text.normal.color={color7}
+text.normal.color={foreground}
 text.margin.top=2
 text.margin.bottom=2
 text.margin.left=2
@@ -217,8 +207,8 @@ text.margin.right=2
 inherits=PanelButtonCommand
 frame=false
 interior.element=radio
-text.normal.color={color7}
-text.focus.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
 min_width=+0.3font
 min_height=+0.3font
 
@@ -226,8 +216,8 @@ min_height=+0.3font
 inherits=PanelButtonCommand
 frame=false
 interior.element=checkbox
-text.normal.color={color7}
-text.focus.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
 min_width=+0.3font
 min_height=+0.3font
 
@@ -279,9 +269,9 @@ indicator.size=8
 
 [ToolboxTab]
 inherits=PanelButtonCommand
-text.normal.color={color7}
-text.press.color={color7}
-text.focus.color={color7}
+text.normal.color={foreground}
+text.press.color={foreground}
+text.focus.color={foreground}
 
 [Tab]
 inherits=PanelButtonCommand
@@ -297,10 +287,10 @@ frame.top=8
 frame.bottom=8
 frame.left=8
 frame.right=8
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={background}
+text.toggle.color={background}
 frame.expansion=0
 text.bold=false
 
@@ -322,15 +312,14 @@ indicator.element=tree
 inherits=PanelButtonCommand
 interior.element=header
 frame.element=header
-# Removed margins to prevent the white/light line glitch below the toolbar
 frame.top=0
-frame.bottom=0
-frame.left=0
-frame.right=0
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+frame.bottom=1
+frame.left=1
+frame.right=1
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
 frame.expansion=0
 
 [SizeGrip]
@@ -338,19 +327,20 @@ indicator.element=resize-grip
 
 [Toolbar]
 inherits=PanelButtonCommand
-# Force window element rendering to completely bypass KvAdapta hardcoded toolbar gradients
-interior.element=window
-frame.element=window
+indicator.element=toolbar
+indicator.size=5
+text.margin=0
+interior.element=menubar
+frame.element=menubar
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
+frame.left=6
+frame.right=6
 frame.top=0
-frame.bottom=0
-frame.left=0
-frame.right=0
+frame.bottom=1
 frame.expansion=0
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
-text.margin=4
 
 [Slider]
 inherits=PanelButtonCommand
@@ -372,10 +362,10 @@ inherits=PanelButtonCommand
 frame.element=progress
 interior.element=progress
 text.margin=0
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
 text.bold=false
 frame.expansion=8
 
@@ -398,10 +388,10 @@ text.margin.top=0
 text.margin.bottom=0
 text.margin.left=8
 text.margin.right=8
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
 min_width=+0.3font
 min_height=+0.3font
 frame.expansion=0
@@ -440,7 +430,7 @@ frame.left=8
 frame.right=8
 frame.element=menu
 interior.element=menu
-text.normal.color={color7}
+text.normal.color={foreground}
 text.shadow=false
 text.bold=false
 
@@ -450,8 +440,8 @@ frame=true
 frame.element=menuitem
 interior.element=menuitem
 indicator.element=menuitem
-text.normal.color={color7}
-text.focus.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
 text.margin.top=0
 text.margin.bottom=0
 text.margin.left=6
@@ -468,10 +458,10 @@ inherits=PanelButtonCommand
 frame.element=menubar
 interior.element=menubar
 frame.bottom=0
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
 frame.expansion=0
 text.bold=false
 
@@ -488,10 +478,10 @@ text.margin.left=4
 text.margin.right=4
 text.margin.top=0
 text.margin.bottom=0
-text.normal.color={color7}
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
 text.bold=false
 min_width=+0.3font
 min_height=+0.3font
@@ -508,7 +498,7 @@ interior.element=titlebar
 indicator.size=16
 indicator.element=mdi
 text.normal.color={color7}
-text.focus.color={color7}
+text.focus.color={foreground}
 text.bold=false
 text.italic=true
 frame.expansion=0
@@ -525,17 +515,17 @@ text.margin.top=2
 text.margin.bottom=2
 text.margin.left=2
 text.margin.right=2
-text.focus.color={color7}
-text.press.color={color7}
-text.toggle.color={color7}
+text.focus.color={foreground}
+text.press.color={foreground}
+text.toggle.color={foreground}
 
 [GroupBox]
 inherits=GenericFrame
 frame=false
 text.shadow=0
 text.margin=0
-text.normal.color={color7}
-text.focus.color={color7}
+text.normal.color={foreground}
+text.focus.color={foreground}
 text.bold=false
 frame.expansion=0
 

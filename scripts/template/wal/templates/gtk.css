@@ -1,0 +1,205 @@
+/* Color Palette Variables */
+@define-color bg {background};
+@define-color fg {foreground};
+@define-color accent {color4};
+@define-color surface mix(@bg, @fg, 0.06);
+@define-color surface_hi mix(@bg, @fg, 0.12);
+@define-color border mix(@bg, @fg, 0.20);
+@define-color muted mix(@fg, @bg, 0.40);
+@define-color sel alpha(@accent, 0.30);
+
+/* GTK3 & Libadwaita Theme Mapping */
+@define-color theme_bg_color @bg;
+@define-color theme_fg_color @fg;
+@define-color theme_base_color @bg;
+@define-color theme_text_color @fg;
+@define-color theme_selected_bg_color @accent;
+@define-color theme_selected_fg_color @bg;
+@define-color theme_tooltip_bg_color @surface_hi;
+@define-color theme_tooltip_fg_color @fg;
+@define-color borders @border;
+@define-color accent_color @accent;
+@define-color accent_bg_color @accent;
+@define-color accent_fg_color @bg;
+@define-color window_bg_color @bg;
+@define-color window_fg_color @fg;
+@define-color view_bg_color @bg;
+@define-color view_fg_color @fg;
+@define-color headerbar_bg_color @surface;
+@define-color headerbar_fg_color @fg;
+@define-color popover_bg_color @surface;
+@define-color popover_fg_color @fg;
+@define-color card_bg_color @surface;
+@define-color sidebar_bg_color @surface;
+@define-color theme_unfocused_selected_bg_color @accent;
+@define-color theme_unfocused_selected_fg_color @bg;
+@define-color link_color @accent;
+@define-color link_visited_color @accent;
+@define-color content_view_bg @bg;
+
+/* Global Reset & Animations Override */
+* {
+  outline-color: @accent;
+  transition: none;
+  animation: none;
+}
+
+/* Base Layout & Views */
+window, .background, .view, textview text, treeview.view, iconview, list, listview {
+  background-color: @bg;
+  color: @fg;
+}
+
+/* Toolbars & Sidebars */
+headerbar, .titlebar, toolbar, menubar, .inline-toolbar,
+.sidebar, stacksidebar, actionbar, statusbar {
+  background-color: @surface;
+  color: @fg;
+  border-color: @border;
+  box-shadow: none;
+}
+
+/* Menus, Popovers & Tooltips */
+menu, .menu, popover, .popup, popover.background contents {
+  background-color: @surface;
+  color: @fg;
+  border: 1px solid @border;
+}
+
+tooltip, tooltip.background {
+  background-color: @surface_hi;
+  color: @fg;
+  border: 1px solid @border;
+}
+
+menuitem:hover, modelbutton:hover {
+  background-color: @surface_hi;
+}
+
+menubar > menuitem:hover,
+menubar > menuitem:selected,
+menubar > menuitem:active,
+menubar > menuitem:checked {
+  background-color: @surface_hi;
+  color: @fg;
+  box-shadow: inset 0 -2px @accent;
+}
+
+/* Input Fields & Text Areas */
+entry, spinbutton, combobox button, textview {
+  background-color: @surface;
+  color: @fg;
+  border: 1px solid @border;
+  caret-color: @accent;
+}
+
+/* Interactive Buttons */
+button {
+  background-image: none;
+  background-color: @surface;
+  color: @fg;
+  border: 1px solid @border;
+  box-shadow: none;
+}
+
+button:hover {
+  background-color: @surface_hi;
+}
+
+button:checked, button:active, button.suggested-action {
+  background-color: @accent;
+  color: @bg;
+  border-color: @accent;
+}
+
+button:checked image, button:active image {
+  color: @bg;
+}
+
+/* Focus States */
+button:focus, entry:focus, spinbutton:focus {
+  border-color: @accent;
+  box-shadow: none;
+  outline-color: @accent;
+}
+
+/* Selection Highlights */
+row:selected, treeview:selected, listview row:selected,
+iconview:selected, .view:selected, menuitem:selected,
+selection, text selection {
+  background-color: @sel;
+  color: @fg;
+}
+
+/* Disabled & Link Elements */
+*:disabled, label.dim-label, .dim-label {
+  color: @muted;
+}
+
+*:link, *:visited, link {
+  color: @accent;
+}
+
+/* Toggles & Controls */
+check:checked, radio:checked,
+check:indeterminate, radio:indeterminate,
+progressbar progress, scale highlight, switch:checked {
+  background-image: none;
+  background-color: @accent;
+  border-color: @accent;
+  color: @bg;
+}
+
+scale trough, progressbar trough, switch {
+  background-color: @surface_hi;
+  border: 1px solid @border;
+}
+
+switch slider {
+  background-image: none;
+  background-color: @fg;
+  border-color: @border;
+}
+
+/* Scrollbars & Dividers */
+scrollbar slider {
+  background-color: @border;
+  border-radius: 8px;
+}
+
+scrollbar slider:hover {
+  background-color: @accent;
+}
+
+separator {
+  background-color: @border;
+}
+
+/* Notebook Tabs */
+notebook > header > tabs > tab,
+notebook > header > tabs > tab:hover,
+notebook > header > tabs > tab:checked,
+notebook > header.top > tabs > tab:checked,
+notebook > header.top > tabs > tab:hover:not(:checked) {
+  box-shadow: none;
+  background-image: none;
+}
+
+notebook > header.top > tabs > tab:checked {
+  box-shadow: inset 0 -2px @accent;
+}
+
+/* Icon Effects Reset */
+image, button image, .image-button image, box > image,
+image:hover, button:hover image, menuitem:hover image {
+  -gtk-icon-shadow: none;
+  -gtk-icon-effect: none;
+  background: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+button.image-button, button.image-button:hover {
+  box-shadow: none;
+  background-image: none;
+}

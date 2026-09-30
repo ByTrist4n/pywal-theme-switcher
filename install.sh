@@ -57,6 +57,7 @@ qt6ct_conf="$dir_qt/qt6ct.conf"
 kitty_conf="$dir_dot_conf/kitty/kitty.conf"
 dir_switcher_config="$dir_dot_conf/pywal-theme-switcher"
 switcher_config_toml="$dir_switcher_config/config.toml"
+dir_kde_colors="$HOME/.local/share/color-schemes"
 
 # Defaults
 preferred_launcher=""
@@ -263,20 +264,23 @@ if [[ -d "./scripts/template/rofi" ]]; then
 fi
 
 # -------------------------------------------------------------
-# Symlink qt6ct/Kvantum colors → cache wal
+# Symlink qt6ct/Kvantum/KDE colors → cache wal
 # -------------------------------------------------------------
-log_step "Linking qt6ct and Kvantum color schemes..."
+log_step "Linking qt6ct, Kvantum and KDE color schemes..."
+
+mkdir -p "$dir_kde_colors"
 
 ln -sf "$HOME/.cache/wal/colors-qt6ct.conf" "$dir_qt6ct_colors/pywal.conf"
-ln -sf "$HOME/.cache/wal/pywal.svg" "$dir_kvantum_pywal/pywal.svg"
+ln -sf "$HOME/.cache/wal/kdeglobals" "$dir_dot_conf/kdeglobals"
 ln -sf "$HOME/.cache/wal/pywal.kvconfig" "$dir_kvantum_pywal/pywal.kvconfig"
+ln -sf "$HOME/.cache/wal/pywal.svg" "$dir_kvantum_pywal/pywal.svg"
+ln -sf "$HOME/.cache/wal/Pywal.colors" "$dir_kde_colors/Pywal.colors"
 
 # Activate pywal theme inside Kvantum Manager
 if command -v kvantummanager &>/dev/null; then
   kvantummanager --set pywal &>/dev/null || true
   log_success "Activated 'pywal' theme in Kvantum Manager"
 fi
-
 # -------------------------------------------------------------
 # Config qt6ct
 # -------------------------------------------------------------
@@ -285,14 +289,19 @@ log_step "Configuring qt6ct..."
 if [[ -f "$qt6ct_conf" ]]; then
   sed -i \
     -e "s|color_scheme_path=.*|color_scheme_path=$HOME/.config/qt6ct/colors/pywal.conf|" \
-    -e 's/custom_palette=false/custom_palette=true/' \
+    -e "s|^custom_palette=.*|custom_palette=true|" \
+    -e "s|^style=.*|style=kvantum|" \
     "$qt6ct_conf"
-
+    
   log_success "Updated existing $qt6ct_conf"
 else
   mkdir -p "$(dirname "$qt6ct_conf")"
-  cp ./scripts/template/qt/qt.conf "$qt6ct_conf"
-  log_success "Created new $qt6ct_conf"
+  if [[ -f "./scripts/template/qt/qt6ct.conf" ]]; then
+    sed "s|__USER__|$USER|g" "./scripts/template/qt/qt6ct.conf" > "$qt6ct_conf"
+    log_success "Created new $qt6ct_conf from template"
+  else
+    log_error "Template ./scripts/template/qt/qt6ct.conf not found."
+  fi
 fi
 
 # -------------------------------------------------------------
@@ -327,18 +336,22 @@ log_success "Created $dir_local_apps/pywal-theme-switcher.desktop"
 # -------------------------------------------------------------
 # Universal GTK configuration
 # -------------------------------------------------------------
-log_step "Setting up GTK dark theme configuration..."
+log_step "Setting up GTK theme..."
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark' 2>/dev/null || true
 
-mkdir -p "$HOME/.config/gtk-3.0"
-cat << EOF > "$HOME/.config/gtk-3.0/settings.ini"
-[Settings]
-gtk-theme-name = Adwaita-dark
-gtk-application-prefer-dark-theme = 1
-EOF
+mkdir -p "$dir_dot_conf/gtk-3.0" "$dir_dot_conf/gtk-4.0"
 
-log_success "Configured GTK 3.0 dark theme settings"
+# Create settings.ini only if it does not exist
+if [[ ! -f "$dir_dot_conf/gtk-3.0/settings.ini" ]]; then
+  printf '[Settings]\ngtk-theme-name = Adwaita-dark\ngtk-application-prefer-dark-theme = 1\n' \
+    >"$dir_dot_conf/gtk-3.0/settings.ini"
+fi
+
+ln -sf "$HOME/.cache/wal/gtk.css" "$dir_dot_conf/gtk-3.0/gtk.css"
+ln -sf "$HOME/.cache/wal/gtk.css" "$dir_dot_conf/gtk-4.0/gtk.css"
+
+log_success "Configured GTK 3/4"
 
 # -------------------------------------------------------------
 # Kitty Theme
