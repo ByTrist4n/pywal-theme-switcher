@@ -53,7 +53,7 @@ fi
 
 wallpaper=$(find "$dir_wallpaper" -type f -name "$selected" -print -quit)
 
-# Apply wallpaper with circle transition (outer)
+# Apply wallpaper with circle transition
 if command -v awww &>/dev/null; then
   awww img "$wallpaper" \
     --transition-type grow \
@@ -62,7 +62,7 @@ if command -v awww &>/dev/null; then
     --transition-fps 60
 fi
 
-# Generate colors via wpgtk (updates oomox, pywal and Kvantum templates)
+# Generate colors via wpgtk
 if command -v wpg &>/dev/null; then
   wpg -s "$wallpaper"
 fi
@@ -70,23 +70,10 @@ fi
 # Save current wallpaper
 cp -f "$(cat "$HOME/.cache/wal/wal")" "$HOME/.cache/wal/wal_wallpaper.jpg"
 
-# Execute post-theme hooks if available
-if [[ -d "$hooks_dir" ]]; then
-  for hook in "$hooks_dir"/*; do
-    [[ -x "$hook" ]] && "$hook"
-  done
-fi
+# Universal GTK interface refresh
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark' 2>/dev/null || true
 
-# Replace Wlogout SVG fill colors with dynamic wal colors
-if [[ -f "$HOME/.cache/wal/colors.json" ]]; then
-  color_wal=$(grep -oP '"color15": "\K[^"]+' "$HOME/.cache/wal/colors.json")
-
-  if [[ -n "$color_wal" ]] && [[ -d "$HOME/.config/wlogout/assets/" ]]; then
-    find "$HOME/.config/wlogout/assets/" \
-      -name "*.svg" \
-      -exec sed -i "s/fill=\"#[0-9a-fA-F]\{6\}\"/fill=\"$color_wal\"/g" {} +
-  fi
-fi
 
 # Hyprland Config colors (.lua)
 if [[ -f "$wal_colors" ]]; then
@@ -111,6 +98,13 @@ if command -v quickshell &>/dev/null; then
   quickshell &
   disown
   sleep 1.5
+fi
+
+# Execute extra post-theme hooks (e.g. SDDM wallpaper, wlogout recoloring)
+if [[ -d "$hooks_dir" ]]; then
+  for hook in "$hooks_dir"/*; do
+    [[ -x "$hook" ]] && "$hook"
+  done
 fi
 
 # Desktop Notification

@@ -319,6 +319,22 @@ EOF
 log_success "Created $dir_local_apps/pywal-theme-switcher.desktop"
 
 # -------------------------------------------------------------
+# Universal GTK configuration
+# -------------------------------------------------------------
+log_step "Setting up GTK dark theme configuration..."
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark' 2>/dev/null || true
+
+mkdir -p "$HOME/.config/gtk-3.0"
+cat << EOF > "$HOME/.config/gtk-3.0/settings.ini"
+[Settings]
+gtk-theme-name = Adwaita-dark
+gtk-application-prefer-dark-theme = 1
+EOF
+
+log_success "Configured GTK 3.0 dark theme settings"
+
+# -------------------------------------------------------------
 # Kitty Theme
 # -------------------------------------------------------------
 log_step "Configuring Kitty terminal colors..."
