@@ -309,7 +309,7 @@ fi
 # -------------------------------------------------------------
 log_step "Installing pywal-theme-switcher script to ~/.local/bin..."
 
-cp "./scripts/template/pywal-theme-switcher/pywal-theme-switcher" "$dir_local_bin"
+cp "./scripts/pywal-theme-switcher" "$dir_local_bin"
 chmod +x "$dir_local_bin/pywal-theme-switcher"
 
 # -------------------------------------------------------------
