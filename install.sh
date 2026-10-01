@@ -139,18 +139,10 @@ fi
 
 log_info "Selected launcher: $preferred_launcher"
 
-cat <<EOF >"$switcher_config_toml"
-# Pywal Theme Switcher Configuration
-
-[general]
-# Preferred application launcher for wallpaper selection
-# Options: "rofi", "walker"
-launcher = "$preferred_launcher"
-
-[notifications]
-enable = true
-EOF
-
+sed "s|__LAUNCHER__|$preferred_launcher|g" \
+  "./scripts/template/config/config.toml" \
+  >"$switcher_config_toml"
+  
 log_success "Created configuration file at $switcher_config_toml"
 
 # -------------------------------------------------------------
@@ -320,16 +312,9 @@ log_step "Installing icon and .desktop entry..."
 cp "./assets/pywal-theme-switcher.svg" "$dir_local_icons/pywal-theme-switcher.svg"
 log_info "Copied custom SVG icon to $dir_local_icons/pywal-theme-switcher.svg"
 
-cat <<EOF >"$dir_local_apps/pywal-theme-switcher.desktop"
-[Desktop Entry]
-Name=Pywal Theme Switcher
-Comment=Dynamic Pywal Theme Switcher for Hyprland, GTK, Qt & Quickshell
-Exec=$dir_local_bin/pywal-theme-switcher
-Icon=pywal-theme-switcher
-Terminal=false
-Type=Application
-Categories=Settings;DesktopSettings;
-EOF
+sed "s|__EXEC__|$dir_local_bin/pywal-theme-switcher|g" \
+  "./scripts/template/desktop/pywal-theme-switcher.desktop" \
+  >"$dir_local_apps/pywal-theme-switcher.desktop"
 
 log_success "Created $dir_local_apps/pywal-theme-switcher.desktop"
 

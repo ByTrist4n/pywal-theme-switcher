@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Pywal Theme Switcher
+Comment=Dynamic Pywal Theme Switcher for Hyprland, GTK, Qt & Quickshell
+Exec=__EXEC__
+Icon=pywal-theme-switcher
+Terminal=false
+Type=Application
+Categories=Settings;DesktopSettings;

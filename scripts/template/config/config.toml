@@ -1,0 +1,9 @@
+# Pywal Theme Switcher Configuration
+
+[general]
+# Preferred application launcher for wallpaper selection
+# Options: "rofi", "walker"
+launcher = "__LAUNCHER__"
+
+[notifications]
+enable = true
