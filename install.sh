@@ -429,6 +429,34 @@ if command -v hyprctl >/dev/null 2>&1 || [[ -d "$dir_hypr" ]]; then
   fi
 fi
 
+# -------------------------------------------------------------
+# Set default Wallpaper if Wallpaper folder is empty
+# -------------------------------------------------------------
+log_step "Checking wallpaper directory..."
+
+if [[ -z "$(ls -A "$dir_user_wallpaper" 2>/dev/null)" ]]; then
+  log_info "Wallpaper folder is empty. Setting up default wallpaper..."
+
+  # Find the default wallpaper asset in assets/
+  default_wp=$(find ./assets -maxdepth 1 -type f -name "wallpaper-default*" | head -n 1)
+
+  if [[ -n "$default_wp" ]]; then
+    cp "$default_wp" "$dir_user_wallpaper/"
+    log_success "Copied default wallpaper to $dir_user_wallpaper"
+
+    # Set initial colors silently using the installed script
+    if [[ -x "$dir_local_bin/pywal-theme-switcher" ]]; then
+      log_info "Applying initial color scheme in background..."
+      "$dir_local_bin/pywal-theme-switcher" --default >/dev/null 2>&1 || true
+      log_success "Initial color scheme generated successfully!"
+    fi
+  else
+    log_warn "No default wallpaper found in ./assets'"
+  fi
+else
+  log_info "Wallpapers already present in $dir_user_wallpaper"
+fi
+
 echo ""
 echo "────────────────────────────────────────────────────────────────────────"
 echo "🎉 Pywal Theme Switcher setup complete!"
