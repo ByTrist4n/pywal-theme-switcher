@@ -18,6 +18,20 @@ rofi_theme="$HOME/.config/rofi/themes/pywal-theme-switcher.rasi"
 # Default fallbacks
 launcher="rofi"
 enable_notifs="true"
+use_default=false
+
+# Argument parsing
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --default)
+      use_default=true
+      shift
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
 
 # Parse TOML config if present
 if [[ -f "$config_file" ]]; then
@@ -30,31 +44,44 @@ if [[ -f "$config_file" ]]; then
   [[ -n "$parsed_notifs" ]] && enable_notifs="$parsed_notifs"
 fi
 
-# Select wallpaper using chosen launcher (Walker or Rofi)
-if [[ "$launcher" == "walker" ]] && command -v walker &>/dev/null; then
-  selected=$(
-    find "$dir_wallpaper" -type f -print0 |
-      while IFS= read -r -d '' file; do
-        echo "$(basename "$file")"
-      done |
-      walker --dmenu
-  )
+# Select wallpaper
+if [[ "$use_default" == "true" ]]; then
+  # Automatically select the first file found in the wallpapers directory
+  wallpaper=$(find "$dir_wallpaper" -type f | head -n 1)
 else
-  selected=$(
-    find "$dir_wallpaper" -type f -print0 |
-      while IFS= read -r -d '' file; do
-        echo -e "$(basename "$file")\x00icon\x1f$file"
-      done |
-      rofi -dmenu -config "$rofi_theme"
-  )
+  # Interactive mode via Walker or Rofi
+  if [[ "$launcher" == "walker" ]] && command -v walker &>/dev/null; then
+    selected=$(
+      find "$dir_wallpaper" -type f -print0 |
+        while IFS= read -r -d '' file; do
+          echo "$(basename "$file")"
+        done |
+        walker --dmenu
+    )
+  else
+    selected=$(
+      find "$dir_wallpaper" -type f -print0 |
+        while IFS= read -r -d '' file; do
+          echo -e "$(basename "$file")\x00icon\x1f$file"
+        done |
+        rofi -dmenu -config "$rofi_theme"
+    )
+  fi
+
+  [[ -z "$selected" ]] && exit 0
+  wallpaper=$(find "$dir_wallpaper" -type f -name "$selected" -print -quit)
 fi
 
-[[ -z "$selected" ]] && exit 0
-
-wallpaper=$(find "$dir_wallpaper" -type f -name "$selected" -print -quit)
+[[ -z "$wallpaper" ]] && exit 0
 
 # Apply wallpaper with circle transition
 if command -v awww &>/dev/null; then
+  # Ensure awww-daemon is running
+  if ! pgrep -x "awww-daemon" &>/dev/null; then
+    awww-daemon &
+    sleep 1
+  fi
+
   awww img "$wallpaper" \
     --transition-type grow \
     --transition-pos 0.5,0.7 \
@@ -64,7 +91,10 @@ fi
 
 # Generate colors via wpgtk
 if command -v wpg &>/dev/null; then
+  wpg -a "$wallpaper" >/dev/null 2>&1 || true
   wpg -s "$wallpaper"
+elif command -v wal &>/dev/null; then
+  wal -i "$wallpaper" -n -q
 fi
 
 # Save current wallpaper
@@ -73,7 +103,6 @@ cp -f "$(cat "$HOME/.cache/wal/wal")" "$HOME/.cache/wal/wal_wallpaper.jpg"
 # Universal GTK interface refresh
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark' 2>/dev/null || true
-
 
 # Hyprland Config colors (.lua)
 if [[ -f "$wal_colors" ]]; then
@@ -87,14 +116,14 @@ fi
 
 # Refresh Waybar
 if command -v waybar &>/dev/null; then
-  pkill waybar
+  pkill waybar || true
   waybar &
   disown
 fi
 
 # Refresh Quickshell
 if command -v quickshell &>/dev/null; then
-  pkill quickshell
+  pkill quickshell || true
   quickshell &
   disown
   sleep 1.5
