@@ -30,7 +30,7 @@
 }
 
 /* Optional Pywal dynamic theme import */
-@import "~/.cache/wal/colors-rofi-dark.rasi"
+@import "~/.cache/wal/colors-rofi-dark.rasi";
 
 configuration {
     show-icons:                 true;

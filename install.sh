@@ -169,10 +169,13 @@ ensure_aur_helper() {
 log_step "Installing core packages via Pacman..."
 
 PACMAN_PKGS=(
+  imagemagick
+  libavif
+  libheif
+  libnotify
   ttf-jetbrains-mono-nerd
   qt5ct
   qt6ct
-  libnotify
 )
 
 if [[ "$preferred_launcher" == "rofi" ]]; then
