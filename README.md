@@ -8,9 +8,9 @@
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Sixtyfour&size=24&pause=1000&color=1793d1&width=480&lines=Pywal+Theme+Switcher;ByTrist4n)](https://git.io/typing-svg)
 
-[![https://img.shields.io/github/v/release/ByTrist4n/pywal-theme-switcher?style=for-the-badge&color=1793d1&labelColor=252733](https://img.shields.io/github/v/release/ByTrist4n/pywal-theme-switcher?style=for-the-badge&color=1793d1&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
+[![GitHub Release](https://img.shields.io/github/v/release/ByTrist4n/pywal-theme-switcher?style=for-the-badge&color=1793d1&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
 [![Last Commit](https://img.shields.io/github/last-commit/ByTrist4n/pywal-theme-switcher?style=for-the-badge&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
-[![GitHub stars](https://img.shields.io/github/stars/ByTrist4n/pywal-theme-switcher?style=for-the-badge&logo=github&color=daaa3f&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
+[![GitHub Stars](https://img.shields.io/github/stars/ByTrist4n/pywal-theme-switcher?style=for-the-badge&logo=github&color=daaa3f&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
 [![Repo Size](https://img.shields.io/github/repo-size/ByTrist4n/pywal-theme-switcher?style=for-the-badge&logo=codesandbox&color=DDB&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
 [![Hyprland](https://img.shields.io/badge/Hyprland-v0.55%2B-1793d1?logo=hyprland&style=for-the-badge&logoColor=1793d1&labelColor=252733)](https://github.com/ByTrist4n/pywal-theme-switcher)
 
@@ -20,15 +20,29 @@
 
 # What is it?
 
-**Pywal Theme Switcher** is a small script that extracts the colors from the current wallpaper and applies them to applications in the environment, such as Qt, GTK, Quickshell and Hyprland.
+**Pywal Theme Switcher** is a lightweight script that extracts colors from your wallpaper and dynamically applies them across your desktop environment.
 
-Hyprland and Quickshell are optional, so Pywal Theme Switcher can also be used in other desktop environments or window managers.
+It can synchronize themes for:
 
-> If you like this setup, please consider leaving **a star ⭐ on GitHub**! It helps a lot! 🫰💖
+- 🌈 Pywal / WPGTK
+- 🪟 Hyprland
+- 🎨 GTK 3 / GTK 4
+- 🖥️ Qt 5 / Qt 6
+- 🌌 Kvantum
+- 🐧 KDE color schemes
+- 🛸 Quickshell
+- 🐱 Kitty
+
+Hyprland and Quickshell are optional, so Pywal Theme Switcher can also be used with other Wayland desktop environments or window managers.
+
+> ⭐ If you like this project, consider leaving a **star on GitHub**! It helps a lot! 🫰💖
 
 > [!TIP]
 > 🚀 **Looking for a Complete Out-of-the-Box Experience?**
-> **`pywal-theme-switcher` is natively integrated and pre-configured** inside my full Arch Linux / CachyOS Rice! Get seamless color switching, automated GTK/Hyprland/Quickshell theming, and an optimized desktop setup with a single command:
+>
+> **`pywal-theme-switcher` is natively integrated and pre-configured** inside my full Arch Linux / CachyOS Rice.
+>
+> Get seamless color switching, automated GTK/Qt/Hyprland/Quickshell theming, and an optimized desktop setup with a single command:
 >
 > 🗂️ **Installer Repository:** [ByTrist4n / hyprland-setup](https://github.com/ByTrist4n/hyprland-setup)
 
@@ -42,9 +56,11 @@ Hyprland and Quickshell are optional, so Pywal Theme Switcher can also be used i
 
 # Getting Started
 
-### Prerequisites
+## Prerequisites
 
-**Hyprland is optional.** Pywal Theme Switcher can be used without Hyprland.
+**Hyprland is optional.**
+
+Pywal Theme Switcher can be used without Hyprland.
 
 If you are using Hyprland, **v0.55+ with Lua support** is required.
 
@@ -54,9 +70,13 @@ You can check your version with:
 hyprland --version
 ```
 
-### Installation
+The installer is designed for **Arch Linux and Arch-based distributions** using `pacman` and the AUR.
 
-To install, clone the repository and execute the installation script from the root directory:
+<br>
+
+## Installation
+
+Clone the repository and run the installation script from the project root:
 
 ```bash
 git clone https://github.com/ByTrist4n/pywal-theme-switcher.git
@@ -66,31 +86,35 @@ cd pywal-theme-switcher
 ./install.sh
 ```
 
-During the installation, you can choose between **Rofi** and **Walker** as your wallpaper selector.
+During installation, you can choose between **Rofi** and **Walker** as your wallpaper selector.
 
-You can also select the launcher directly from the command line:
-
-#### Walker
+### Walker
 
 ```bash
 ./install.sh --walker
 ```
 
-#### Rofi
+### Rofi
 
 ```bash
 ./install.sh --rofi
 ```
 
-If no option is provided, the installer will ask you which launcher you want to use.
+### Non-Interactive Installation
 
-#### Non-Interactive Installation
+Use `-y` or `--yes` to automatically accept configuration prompts:
 
-If you want to run the installer non-interactively (e.g., in automated setup scripts), pass the -y or --yes flag to automatically accept all configuration prompts:
+```bash
+./install.sh --walker -y
+```
+
+or:
 
 ```bash
 ./install.sh --rofi -y
 ```
+
+If no launcher is specified, the installer asks which launcher you want to use.
 
 <br>
 
@@ -98,15 +122,36 @@ If you want to run the installer non-interactively (e.g., in automated setup scr
 
 When you launch `pywal-theme-switcher`, the script:
 
-1. 🖼️ Lets you select a wallpaper using **Rofi or Walker**.
-2. 🌈 Generates a new color palette using **Pywal / WPGTK**.
+1. 🖼️ Lets you select a wallpaper using **Walker or Rofi**.
+2. 🌈 Generates a color palette using **Pywal 16 / WPGTK**.
 3. 🖥️ Applies the generated colors to the configured applications.
-4. 🪟 Updates **Hyprland** colors.
+4. 🪟 Updates **Hyprland** colors when Hyprland is available.
 5. 🎨 Updates **Qt / Kvantum** themes.
-6. 🐧 Updates **GTK** theming.
-7. 🛸 Refreshes **Quickshell**.
-8. 🪝 Executes all executable post-hooks.
-9. 🔄 Reloads the relevant desktop components.
+6. 🐧 Updates **GTK 3 / GTK 4** theming.
+7. 🐧 Updates **KDE color schemes**.
+8. 🐱 Updates **Kitty** colors when configured.
+9. 🛸 Refreshes **Quickshell** when configured.
+10. 🪝 Executes executable post-hooks.
+11. 🔄 Reloads the relevant desktop components.
+12. 🔔 Sends a desktop notification when notifications are enabled.
+
+<br>
+
+# 🚀 Usage
+
+Launch the theme switcher:
+
+```bash
+pywal-theme-switcher
+```
+
+The switcher will open your configured wallpaper selector.
+
+You can also use the executable directly:
+
+```bash
+~/.local/bin/pywal-theme-switcher
+```
 
 <br>
 
@@ -114,63 +159,83 @@ When you launch `pywal-theme-switcher`, the script:
 
 [![Arch Linux](https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge)](https://archlinux.org)
 [![CachyOS](https://img.shields.io/badge/CachyOS-00A88F?style=for-the-badge&logo=cachyos&logoColor=white)](https://cachyos.org)
-
 [![Hyprland](https://img.shields.io/badge/Hyprland-1793D1?logo=hyprland&logoColor=fff&style=for-the-badge)](https://hyprland.org)
 
-### 📦 Core Dependencies (Pacman)
+## 📦 Core Dependencies
 
-| Package                                                                                                | Description                                      |
-| :----------------------------------------------------------------------------------------------------- | :----------------------------------------------- |
-| 🚀 [yay](https://github.com/Jguer/yay)                                                                 | AUR helper and pacman wrapper                    |
-| 🔤 [ttf-jetbrains-mono-nerd](https://github.com/ryanoasis/nerd-fonts)                                  | Developer font with specialized glyphs and icons |
-| 🎨 [qt5ct](https://sourceforge.net/projects/qt5ct/) / [qt6ct](https://sourceforge.net/projects/qt5ct/) | Qt5 and Qt6 configuration utilities              |
-| 🔍 [rofi](https://github.com/davatorium/rofi)                                                          | Window switcher and application launcher         |
+The installer installs the following packages through **Pacman**:
 
-> **Note:** `rofi` is only installed when Rofi is selected.
+| Package                                | Description                                      |
+| :------------------------------------- | :----------------------------------------------- |
+| 🚀 [yay](https://github.com/Jguer/yay) | AUR helper and pacman wrapper                    |
+| 🖼️ imagemagick                         | Image processing utilities                       |
+| 🖼️ libavif                             | AVIF image format support                        |
+| 🖼️ libheif                             | HEIF / HEIC image format support                 |
+| 🔔 libnotify                           | Desktop notification support                     |
+| 🎨 qt5ct                               | Qt5 configuration utility                        |
+| 🎨 qt6ct                               | Qt6 configuration utility                        |
+| 🔍 rofi                                | Application launcher and wallpaper selector      |
+| 🔤 ttf-jetbrains-mono-nerd             | Developer font with specialized glyphs and icons |
 
-### 🛸 AUR Dependencies (Yay)
+> **Note**: rofi is only installed when Rofi is selected.
 
-| Package                                                                               | Description                                         |
-| :------------------------------------------------------------------------------------ | :-------------------------------------------------- |
-| 🖼️ [awww](https://codeberg.org/LGFae/awww)                                            | Dynamic wallpaper generator and wrapper             |
-| 🌈 [python-pywal16](https://github.com/eylles/pywal16)                                | Color palette generation from images (Pywal fork)   |
-| 🛠️ [wpgtk](https://github.com/deviantfero/wpgtk)                                      | Universal theme template manager using Pywal        |
-| 🕶️ [nwg-look](https://github.com/nwg-piotr/nwg-look)                                  | GTK3/4 configuration customization tool for Wayland |
-| 🎨 [papirus-icon-theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) | Material design icon theme for Linux                |
-| 🌌 [kvantum](https://github.com/tsujan/Kvantum)                                       | SVG-based theme engine for Qt5/Qt6                  |
-| 🚶 [walker](https://github.com/abenz1267/walker)                                      | Application launcher and wallpaper selector         |
+## 🛸 AUR Dependencies
 
-> **Note:** `walker` is only installed when Walker is selected.
+The installer uses **yay** to install the following AUR packages:
+
+| Package               | Description                                  |
+| :-------------------- | :------------------------------------------- |
+| 🖼️ awww               | Dynamic Wayland wallpaper daemon             |
+| 🐘 elephant           | Walker backend / provider framework          |
+| 📁 elephant-files     | File provider for Walker                     |
+| 🌌 kvantum            | SVG-based theme engine for Qt                |
+| 🎨 papirus-icon-theme | Material Design icon theme for Linux         |
+| 🌈 python-pywal16-git | Pywal 16 color palette generator             |
+| 🕶️ nwg-look           | GTK3/4 configuration utility for Wayland     |
+| 🚶 walker             | Application launcher and wallpaper selector  |
+| 🛠️ wpgtk              | Universal theme template manager using Pywal |
+
+> **Note:**: `walker`, `elephant` and `elephant-files` are installed only when Walker is selected.
 
 <br>
 
-# 🪝 Post-Hooks System (`post-hooks.d`)
+# 🪝 Post-Hooks System
 
-`pywal-theme-switcher` supports custom executable scripts triggered automatically after every theme change. This allows you to sync external services (SDDM, Discord, terminal emulators, etc.) with your new Pywal color palette.
+`pywal-theme-switcher` supports custom executable scripts that run automatically after every theme change.
 
-### Directory Location
+This makes it possible to synchronize additional applications or services with your Pywal colors.
 
-Create the hooks directory if it doesn't exist yet:
+## Directory
 
-```bash
-mkdir -p ~/.config/pywal-theme-switcher/post-hooks.d
+Hooks are stored in:
+
+```text
+~/.local/share/pywal-theme-switcher/post-hooks.d/
 ```
 
-### Creating & Activating a New Hook
+## Creating a Hook
 
-- Create a script inside `~/.config/pywal-theme-switcher/post-hooks.d/`
+Create a script:
 
-  ```bash
-  touch ~/.config/pywal-theme-switcher/post-hooks.d/01-custom.sh
-  ```
+```bash
+touch ~/.local/share/pywal-theme-switcher/post-hooks.d/01-custom.sh
+```
 
-- Add your shell commands with a proper shebang (`#!/bin/bash`).
+Add your commands with a proper shebang:
 
-- Grant execution permissions:
+```bash
+#!/usr/bin/env bash
 
-  ```bash
-  chmod +x ~/.config/pywal-theme-switcher/post-hooks.d/01-custom.sh
-  ```
+# Your commands here
+```
+
+Make it executable:
+
+```bash
+chmod +x ~/.local/share/pywal-theme-switcher/post-hooks.d/01-custom.sh
+```
+
+Executable hooks are automatically executed after a theme change.
 
 <br>
 
@@ -198,14 +263,36 @@ enable = false
 
 <br>
 
-# ⌨️ Hyprland Keybind
+# 🐱 Kitty
 
-If you are using Hyprland, the installer can automatically configure a Hyprland keybind to launch the theme switcher.
+During installation, you can optionally configure Kitty to load the colors generated by Pywal.
 
-Default binding:
+The generated colors are loaded from:
+
+```text
+~/.cache/wal/colors-kitty.conf
+```
+
+The installer adds the following include to your Kitty configuration:
+
+```conf
+include ~/.cache/wal/colors-kitty.conf
+```
+
+<br>
+
+## ⌨️ Hyprland Keybind
+
+The installer can optionally configure:
 
 ```text
 SUPER + SHIFT + T
+```
+
+This launches:
+
+```bash
+pywal-theme-switcher
 ```
 
 You can also launch the switcher manually:
@@ -218,6 +305,54 @@ or:
 
 ```bash
 ~/.local/bin/pywal-theme-switcher
+```
+
+<br>
+
+# ⚙️ Configuration
+
+The main configuration file is:
+
+```text
+~/.config/pywal-theme-switcher/config.toml
+```
+
+The launcher is configured automatically during installation.
+
+Example:
+
+```toml
+[general]
+launcher = "walker"
+
+[notifications]
+enable = true
+```
+
+Supported launchers:
+
+```text
+walker
+rofi
+```
+
+<br>
+
+# 📁 Wallpapers
+
+Wallpapers are stored in:
+
+```text
+~/Pictures/Wallpapers
+```
+
+Supported image formats include:
+
+```text
+.jpg
+.jpeg
+.png
+.webp
 ```
 
 <br>
