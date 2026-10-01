@@ -276,6 +276,7 @@ if command -v kvantummanager &>/dev/null; then
   kvantummanager --set pywal &>/dev/null || true
   log_success "Activated 'pywal' theme in Kvantum Manager"
 fi
+
 # -------------------------------------------------------------
 # Config qt6ct
 # -------------------------------------------------------------
@@ -418,12 +419,15 @@ if command -v hyprctl >/dev/null 2>&1 || [[ -d "$dir_hypr" ]]; then
 fi
 
 # -------------------------------------------------------------
-# Set default Wallpaper if Wallpaper folder is empty
+# Set default Wallpaper or initialize colors from existing ones
 # -------------------------------------------------------------
 log_step "Checking wallpaper directory..."
 
-if [[ -z "$(ls -A "$dir_user_wallpaper" 2>/dev/null)" ]]; then
-  log_info "Wallpaper folder is empty. Setting up default wallpaper..."
+# Get first image file from user wallpaper folder
+first_user_wp=$(find "$dir_user_wallpaper" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | head -n 1)
+
+if [[ -z "$first_user_wp" ]]; then
+  log_info "No wallpapers found in $dir_user_wallpaper. Setting up default wallpaper..."
 
   # Find the default wallpaper asset in assets/
   default_wp=$(find ./assets -maxdepth 1 -type f -name "wallpaper-default*" | head -n 1)
@@ -431,18 +435,25 @@ if [[ -z "$(ls -A "$dir_user_wallpaper" 2>/dev/null)" ]]; then
   if [[ -n "$default_wp" ]]; then
     cp "$default_wp" "$dir_user_wallpaper/"
     log_success "Copied default wallpaper to $dir_user_wallpaper"
-
-    # Set initial colors silently using the installed script
-    if [[ -x "$dir_local_bin/pywal-theme-switcher" ]]; then
-      log_info "Applying initial color scheme in background..."
-      "$dir_local_bin/pywal-theme-switcher" --default >/dev/null 2>&1 || true
-      log_success "Initial color scheme generated successfully!"
-    fi
+    target_wp="$dir_user_wallpaper/$(basename "$default_wp")"
   else
-    log_warn "No default wallpaper found in ./assets'"
+    log_warn "No default wallpaper found in ./assets"
+    target_wp=""
   fi
 else
-  log_info "Wallpapers already present in $dir_user_wallpaper"
+  log_info "Found existing wallpaper: $first_user_wp"
+  target_wp="$first_user_wp"
+fi
+
+if [[ -n "$target_wp" ]]; then
+  log_info "Generating initial Pywal cache from: $target_wp"
+  wal -i "$target_wp" -q 2>/dev/null || true
+
+  if [[ -x "$dir_local_bin/pywal-theme-switcher" ]]; then
+    log_info "Applying initial color scheme in background..."
+    "$dir_local_bin/pywal-theme-switcher" --default >/dev/null 2>&1 || true
+    log_success "Initial color scheme generated successfully!"
+  fi
 fi
 
 echo ""
