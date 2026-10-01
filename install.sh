@@ -438,7 +438,7 @@ if [[ -z "$(ls -A "$dir_user_wallpaper" 2>/dev/null)" ]]; then
   log_info "Wallpaper folder is empty. Setting up default wallpaper..."
 
   # Find the default wallpaper asset in assets/
-  default_wp=$(find ./assets -maxdepth 1 -type f -name "wallpaper-default.*" | head -n 1)
+  default_wp=$(find ./assets -maxdepth 1 -type f -name "wallpaper-default*" | head -n 1)
 
   if [[ -n "$default_wp" ]]; then
     cp "$default_wp" "$dir_user_wallpaper/"
