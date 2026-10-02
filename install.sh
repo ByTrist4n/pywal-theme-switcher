@@ -271,11 +271,10 @@ ln -sf "$HOME/.cache/wal/pywal.kvconfig" "$dir_kvantum_pywal/pywal.kvconfig"
 ln -sf "$HOME/.cache/wal/pywal.svg" "$dir_kvantum_pywal/pywal.svg"
 ln -sf "$HOME/.cache/wal/Pywal.colors" "$dir_kde_colors/Pywal.colors"
 
-# Activate pywal theme inside Kvantum Manager
-if command -v kvantummanager &>/dev/null; then
-  kvantummanager --set pywal &>/dev/null || true
-  log_success "Activated 'pywal' theme in Kvantum Manager"
-fi
+# Activate pywal theme in Kvantum
+mkdir -p "$dir_dot_conf/Kvantum"
+printf '[General]\ntheme=pywal\n' > "$dir_dot_conf/Kvantum/kvantum.kvconfig"
+log_success "Activated \"pywal\" theme in Kvantum"
 
 # -------------------------------------------------------------
 # Config qt6ct
