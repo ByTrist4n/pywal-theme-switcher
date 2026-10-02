@@ -20,6 +20,8 @@
 
 # What is it?
 
+https://github.com/user-attachments/assets/adafb6e9-5931-458c-a72c-63e887c4d335
+
 **Pywal Theme Switcher** is a lightweight script that extracts colors from your wallpaper and dynamically applies them across your desktop environment.
 
 It can synchronize themes for:
